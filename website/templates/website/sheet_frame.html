@@ -1,0 +1,298 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap-formhelpers.min.css' %}">
+  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+  <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap-formhelpers.min.js' %}"></script>
+
+  <!-- Off django -->
+  <!--
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  -->
+  <!-- End Off django -->
+</head>
+
+<body style="background-color: #f7f7f7;">
+<style>
+.success-entry {   
+    border-color: rgba(0, 128, 0, 0.6);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(0, 128, 0, 0.6);
+    outline: 0 none;
+}
+.success-entry:focus {   
+    border-color: rgba(0, 128, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(0, 128, 0, 0.6);
+    outline: 0 none;
+}
+.error-entry {   
+    border-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+    outline: 0 none;
+}
+.error-entry:focus {   
+    border-color: rgba(255, 0, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+    outline: 0 none;
+}
+.temp-entry {   
+    border-color: rgba(255, 255, 102, 0.6);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 255, 102, 0.6);
+    outline: 0 none;
+}
+.temp-entry:focus {   
+    border-color: rgba(255, 255, 102, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 255, 102, 0.6);
+    outline: 0 none;
+}
+.number-input-thing::-webkit-outer-spin-button,
+.number-input-thing::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.number-input-thing {
+    -moz-appearance: textfield;
+}
+</style>
+
+
+{% if 'email-sent' in request.path %}
+<style>#messageForm{display: none;} #errorResponse{display: none;} #contactResponse{display: block !important;}</style>
+{% elif 'error-sent' in request.path %}
+<style>#messageForm{display: none;} #contactResponse{display: none;} #errorResponse{display: block !important;}</style>
+{% else %}
+<style>#contactResponse{display: none;} #errorResponse{display: none;}</style>
+{% endif %}
+
+<noscript>
+    <style>.custom-field-place-holders, .no-script-submission{display: none !important;}</style>
+</noscript>
+
+    <div class="container-fluid" style="padding: 1%; background-color: #f7f7f7;">
+        <form id="messageForm" action="/" method="POST" onsubmit="captureThatDamnFlag(); document.getElementById('messageForm').style.display = 'none'; document.getElementById('market-frame-spinner').style.display = 'block';">
+            {% csrf_token %}
+            <h3 style="vertical-align: middle;"><span class="glyphicon glyphicon-shopping-cart"></span> Checkout Form</h3>	
+            <br> 
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <span id="name-placeholder" class="custom-field-place-holders" onclick="slideNameHolder()" style="position: relative; bottom: -32px; left: -35px; color: gray;">Please enter your name</span>
+                <input type="text" {% if client.user_name %}value="{{client.user_name}}"{% endif %} class="form-control name-input-thing" id="name" name="name" required="required" onclick="slideNameHolder()" onmouseout="showNameHolder()" onchange="successName()" onkeyup="successName()" required>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-user"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <span id="email-placeholder" class="custom-field-place-holders" onclick="slideEmailHolder()" style="position: relative; bottom: -32px; left: -33px; color: gray;">Please enter your email address</span>
+                <input type="email" {% if client.user_email %}value="{{client.user_email}}"{% endif %} class="form-control email-input-thing" id="email" name="email" onclick="slideEmailHolder()" onmouseout="showEmailHolder()" onchange="successEmail()" onkeyup="successEmail()" required>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-envelope"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="country-selected">Country:</label>
+				<div id="country-selected" class="bfh-selectbox bfh-countries" {% if client.user_country %}data-country="{{client.user_country}}"{% else %}data-country="ZA"{% endif %} data-flags="true">
+				<input type="hidden" value="">
+				<a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
+					<span class="bfh-selectbox-option input-medium" data-option=""></span>
+					<b class="caret"></b>
+				</a>
+				<div class="bfh-selectbox-options">
+					<input type="text" class="bfh-selectbox-filter">
+					<div role="listbox">
+					<ul role="option">
+					</ul>
+					</div>
+				</div>
+				</div>
+                <input class="shadow-country-thing" name="country-thing" type="hidden">
+                <input class="shadow-country-name-thing" name="country-name-thing" type="hidden">
+			</div>
+
+            <button class="btn btn-danger" type="submit">Proceed <i class="glyphicon glyphicon-log-in"></i></button>
+            <!--<button class="btn btn-info" type="button" style="float: right;">Continue Shopping <i class="glyphicon glyphicon-shopping-cart"></i></button>-->
+        </form>
+
+        <!-- Spinner -->
+        <div id="market-frame-spinner" style="width: 100%; text-align: center; margin: auto; display: none; margin-top: 100px;">
+            <i class="fa fa-spinner fa-spin" style="font-size:40pt; color:brown;"></i>
+        </div>
+        <!-- End Spinner -->
+
+        <!-- Message Sent Desktop Response -->
+        <div id="contactResponse" style="text-align: center; display: none;">
+        <br>
+            <div>
+                <h3>Your order has been placed</h3>
+				<p>and is expected to be delivered, according to your location, in: </p>
+				<h3 id="demo"></h3>
+                <h3 style="vertical-align: middle; font-size: 5em; color: brown;" class="fa fa-paper-plane"></h3>
+                <br><br>
+                <p> Thank you for shopping at <br>The Mini Market <br><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></p>
+				<button onclick="deactivateFrame()" class="btn btn-danger">Close</button>
+            </div>
+        <br>
+        </div>
+        <!-- End Message Sent Desktop Response -->
+
+        <!-- Message Error Sending -->
+        <div id="errorResponse" style="text-align: center; display: none;">
+        <br>
+            <div>
+                <img width="40" style="margin-top: 2px;" src="{% static 'website/images/favicon.png' %}">
+                <br><br>
+                <p><i class="fa fa-warning" style="color: brown;"></i> An error occured while processing your order; please try again later.</p>
+            </div>
+        <br>
+        </div>
+        <!-- End Message Error Sending -->
+    </div>
+
+<script>
+/* Name */
+    function slideNameHolder(){
+        $("#name-placeholder").fadeOut();
+        $(".name-input-thing").focus();
+    }
+
+    function showNameHolder(){
+        if ($(".name-input-thing").val() == null || $(".name-input-thing").val() == ""){
+            $("#name-placeholder").fadeIn();
+            $(".name-input-thing").blur();
+        }
+    }
+
+    function successName(){
+        if ($(".name-input-thing").val() == null || $(".name-input-thing").val() == ""){
+            $(".name-input-thing").removeClass("success-entry");
+            $(".name-input-thing").removeClass("error-entry");
+        } else {
+            $(".name-input-thing").addClass("success-entry");
+            if ($(".name-input-thing").val().length > 1){
+                $(".name-input-thing").removeClass("error-entry");
+                $(".name-input-thing").addClass("success-entry");
+            } else {
+                $(".name-input-thing").removeClass("success-entry");
+                $(".name-input-thing").addClass("error-entry");
+            }            
+        }
+    }
+/* End Name */
+
+/* Email */
+    function slideEmailHolder(){
+        $("#email-placeholder").fadeOut();
+        $(".email-input-thing").focus();
+    }
+
+    function showEmailHolder(){
+        if ($(".email-input-thing").val() == null || $(".email-input-thing").val() == ""){
+            $("#email-placeholder").fadeIn();
+            $(".email-input-thing").blur();
+        }
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+    
+    function successEmail(){
+        if ($(".email-input-thing").val() == null || $(".email-input-thing").val() == ""){
+            $(".email-input-thing").removeClass("success-entry");
+            $(".email-input-thing").removeClass("error-entry");
+        } else {
+            if (validateEmail($(".email-input-thing").val())){
+                $(".email-input-thing").removeClass("error-entry");
+                $(".email-input-thing").addClass("success-entry");
+            } else {
+                $(".email-input-thing").removeClass("success-entry");
+                $(".email-input-thing").addClass("error-entry");
+            }
+            
+        }
+    }
+/* End Email */
+</script>
+
+<script>
+/* Validate preset values */
+{% if client.user_name %}$("#name-placeholder").fadeOut();successName();{% endif %}
+{% if client.user_email %}$("#email-placeholder").fadeOut();successEmail();{% endif %}
+/* End validate preset values */
+</script>
+
+<script>
+/* Pass country flag */
+function captureThatDamnFlag(){	$(".shadow-country-thing").val( $('.bfh-selectbox-option').html() ); }
+</script>
+
+<!-- Close Frame -->
+<script>
+    function deactivateFrame(){
+        window.parent.postMessage('Completed', '*');
+    }
+</script>
+<!-- End close frame -->
+
+<!-- Claim Purchase -->
+<script>
+    function claimPurchase(){
+        window.parent.postMessage('Successful Purchase', '*');
+    }
+</script>
+<script>{% if 'email-sent' in request.path %}claimPurchase();{% endif %}</script>
+<!-- End Claim Purchase -->
+
+<!-- Countdown Script -->
+<script>
+// Set the date we're counting down to
+{% if client.item_delivery %}
+var endDate = "{{ client.item_delivery|date:'M d, Y H:i:s' }}";
+{% else %}
+var today = new Date();
+var tomorrow = new Date();
+var endDate = tomorrow.setDate(today.getDate()+1);
+{% endif %}
+
+var countDownDate = new Date(endDate).getTime();
+//var countDownDate = new Date("Jan 25, 2018 15:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+	/*distance = customTime;*/
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "Delivered";
+    }
+}, 1000);
+
+</script>
+<!-- End Countdown Script -->
+</body>
+</html>

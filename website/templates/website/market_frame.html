@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+<style>
+.success-entry {   
+    border-color: rgba(0, 128, 0, 0.6);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(0, 128, 0, 0.6);
+    outline: 0 none;
+}
+.success-entry:focus {   
+    border-color: rgba(0, 128, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(0, 128, 0, 0.6);
+    outline: 0 none;
+}
+.error-entry {   
+    border-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+    outline: 0 none;
+}
+.error-entry:focus {   
+    border-color: rgba(255, 0, 0, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+    outline: 0 none;
+}
+.temp-entry {   
+    border-color: rgba(255, 255, 102, 0.6);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 255, 102, 0.6);
+    outline: 0 none;
+}
+.temp-entry:focus {   
+    border-color: rgba(255, 255, 102, 0.8);
+    box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(255, 255, 102, 0.6);
+    outline: 0 none;
+}
+.number-input-thing::-webkit-outer-spin-button,
+.number-input-thing::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.number-input-thing {
+    -moz-appearance: textfield;
+}
+</style>
+
+
+{% if 'email-sent' in request.path %}
+<style>#messageForm{display: none;} #errorResponse{display: none;} #contactResponse{display: block !important;}</style>
+{% elif 'error-sent' in request.path %}
+<style>#messageForm{display: none;} #contactResponse{display: none;} #errorResponse{display: block !important;}</style>
+{% else %}
+<style>#contactResponse{display: none;} #errorResponse{display: none;}</style>
+{% endif %}
+
+<noscript>
+    <style>.custom-field-place-holders, .no-script-submission{display: none !important;}</style>
+</noscript>
+
+    <div class="container-fluid" style="padding: 1%;">
+        <form id="messageForm" action="/" method="POST" onsubmit="document.getElementById('messageForm').style.display = 'none'; document.getElementById('granold-frame-spinner').style.display = 'block';">
+            {% csrf_token %}
+            <h3 style="vertical-align: middle;"><span class="glyphicon glyphicon-envelope"></span> Send us a message</h3>	
+            <br> 
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <span id="name-placeholder" class="custom-field-place-holders" onclick="slideNameHolder()" style="position: relative; bottom: -32px; left: -35px; color: gray;">Please enter your name</span>
+                <input type="text" class="form-control name-input-thing" id="name" name="name" required="required" onclick="slideNameHolder()" onmouseout="showNameHolder()" onchange="successName()" onkeyup="successName()" required>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-user"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <span id="email-placeholder" class="custom-field-place-holders" onclick="slideEmailHolder()" style="position: relative; bottom: -32px; left: -33px; color: gray;">Please enter your email address</span>
+                <input type="email" class="form-control email-input-thing" id="email" name="email" onclick="slideEmailHolder()" onmouseout="showEmailHolder()" onchange="successEmail()" onkeyup="successEmail()" required>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-envelope"></span>
+            </div>
+            <div class="form-group">
+                <label for="number">Contact Number:</label>
+                <style>@media screen and (max-width: 367px){ .low-res-nuber-fix{display: none !important;} }</style>
+                <span id="number-placeholder" class="custom-field-place-holders" onclick="slideNumberHolder()" style="position: relative; bottom: -32px; left: -105px; color: gray;">Please enter your <span class="low-res-nuber-fix">phone</span> number</span>
+                <input type="number" class="form-control number-input-thing" id="number" name="number" required="required" onclick="slideNumberHolder()" onmouseout="showNumberHolder()" onchange="successNumber()" onkeyup="successNumber()" required>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-earphone"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="service-required">Service Required:</label>
+                <select style="color: #999999;" class="form-control" id="service-required" name="service-required" required>
+                    <option style="color: gray;" value="" disabled selected hidden>Please choose your service </option>
+                    <option style="color: #999999;" value="Tiling">Tiling</option>
+                    <option style="color: #999999;" value="Paving">Paving</option>
+                    <option style="color: #999999;" value="Ceilling">Ceilling</option>
+                    <option style="color: #999999;" value="Buidling">Building</option>
+                    <option style="color: #999999;" value="Painting">Painting</option>
+                    <option style="color: #999999;" value="Wood work">Wood work</option>
+                    <option style="color: #999999;" value="Plastering">Plastering</option>
+                    <option style="color: #999999;" value="Waterproofing">Waterproofing</option>
+                    <option style="color: #999999;" value="Handyman services">Handyman services</option>
+                    <option style="color: #999999;" value="Other services">Other services...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea class="form-control" rows="5" id="message" name="message" style="resize: none; height: 100px;"></textarea>
+                <span style="color: gray; position: relative; top: -25px; right: 10px; float: right;" class="glyphicon glyphicon-pencil"></span>
+            </div>
+
+            <button class="btn btn-danger" type="submit">Send Email</button>
+        </form>
+
+        <!-- Spinner -->
+        <div id="granold-frame-spinner" style="width: 100%; text-align: center; margin: auto; display: none; margin-top: 100px;">
+            <i class="fa fa-spinner fa-spin" style="font-size:40pt; color:brown;"></i>
+        </div>
+        <!-- End Spinner -->
+
+        <!-- Message Sent Desktop Response -->
+        <div id="contactResponse" style="padding: 2%; text-align: center; display: none;">
+        <br>
+            <div>
+                <img width="40" style="margin-top: 2px;" src="{% static 'website/images/favicon.png' %}">
+                <h3>Your message has been sent</h3>
+                <h3 style="vertical-align: middle; font-size: 5em; color: brown;" class="fa fa-envelope-o"></h3>
+                <br><br>
+                <p>Thank you for choosing Granold Construction and Renovation, <br> we will get back to you shortly.</p>
+            </div>
+        <br>
+        </div>
+        <!-- End Message Sent Desktop Response -->
+
+        <!-- Message Error Sending -->
+        <div id="errorResponse" style="padding: 2%; text-align: center; display: none;">
+        <br>
+            <div>
+                <img width="40" style="margin-top: 2px;" src="{% static 'website/images/favicon.png' %}">
+                <br><br>
+                <p><i class="fa fa-warning" style="color: brown;"></i> An error occured while sending your message; please try again later or email directly <a style="text-decoration: underline; font-weight: bold; color: brown;">info@granold.co.za</a></p>
+            </div>
+        <br>
+        </div>
+        <!-- End Message Error Sending -->
+    </div>
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
+  <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
+<script>
+/* Name */
+    function slideNameHolder(){
+        $("#name-placeholder").fadeOut();
+        $(".name-input-thing").focus();
+    }
+
+    function showNameHolder(){
+        if ($(".name-input-thing").val() == null || $(".name-input-thing").val() == ""){
+            $("#name-placeholder").fadeIn();
+            $(".name-input-thing").blur();
+        }
+    }
+
+    function successName(){
+        if ($(".name-input-thing").val() == null || $(".name-input-thing").val() == ""){
+            $(".name-input-thing").removeClass("success-entry");
+            $(".name-input-thing").removeClass("error-entry");
+        } else {
+            $(".name-input-thing").addClass("success-entry");
+            if ($(".name-input-thing").val().length > 1){
+                $(".name-input-thing").removeClass("error-entry");
+                $(".name-input-thing").addClass("success-entry");
+            } else {
+                $(".name-input-thing").removeClass("success-entry");
+                $(".name-input-thing").addClass("error-entry");
+            }            
+        }
+    }
+/* End Name */
+
+/* Email */
+    function slideEmailHolder(){
+        $("#email-placeholder").fadeOut();
+        $(".email-input-thing").focus();
+    }
+
+    function showEmailHolder(){
+        if ($(".email-input-thing").val() == null || $(".email-input-thing").val() == ""){
+            $("#email-placeholder").fadeIn();
+            $(".email-input-thing").blur();
+        }
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+    
+    function successEmail(){
+        if ($(".email-input-thing").val() == null || $(".email-input-thing").val() == ""){
+            $(".email-input-thing").removeClass("success-entry");
+            $(".email-input-thing").removeClass("error-entry");
+        } else {
+            if (validateEmail($(".email-input-thing").val())){
+                $(".email-input-thing").removeClass("error-entry");
+                $(".email-input-thing").addClass("success-entry");
+            } else {
+                $(".email-input-thing").removeClass("success-entry");
+                $(".email-input-thing").addClass("error-entry");
+            }
+            
+        }
+    }
+/* End Email */
+
+/* Number */
+    function slideNumberHolder(){
+        $("#number-placeholder").fadeOut();
+        $(".number-input-thing").focus();
+    }
+
+    function showNumberHolder(){
+        if ($(".number-input-thing").val() == null || $(".number-input-thing").val() == ""){
+            $("#number-placeholder").fadeIn();
+            $(".number-input-thing").blur();
+        }
+    }
+
+    function successNumber(){
+        if ($(".number-input-thing").val() == null || $(".number-input-thing").val() == ""){
+            $(".number-input-thing").removeClass("success-entry");
+            $(".number-input-thing").removeClass("error-entry");
+        } else {
+            $(".number-input-thing").addClass("success-entry");
+            if ($(".number-input-thing").val().length > 8){
+                $(".number-input-thing").removeClass("error-entry");
+                $(".number-input-thing").addClass("success-entry");
+            } else {
+                $(".number-input-thing").removeClass("success-entry");
+                $(".number-input-thing").addClass("error-entry");
+            }            
+        }
+    }
+/* End Number */
+</script>
+</body>
+</html>

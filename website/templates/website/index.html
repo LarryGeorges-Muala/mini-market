@@ -1,0 +1,1105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mini Market</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{% static 'website/images/fav-icon-1.jpg' %}"/>
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
+
+  <!-- Off django -->
+  <!--
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  -->
+  <!-- End Off django -->
+
+  <script src="{% static 'website/boots/js/angular.min.js' %}"></script>
+</head>
+<body id="complete-control" style="font-family: 'Roboto', sans-serif; background-color: #f8f8f8;" ng-app="myApp" ng-controller="myCtrl">
+<style>
+	.fixed-bg-top {
+		background-image: url("{% static 'website/images/header-1-compressor.jpg' %}");
+		min-height: 650px;
+		background-size: 100% 100%;
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: no-repeat;
+		min-width: 100%;
+		background-color: rgba(42, 27, 9, .9);
+	}
+	.header-arrow-down i:hover{
+		color: rgba(203, 52, 52, .7);
+	}
+	.item-image{
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		width: 100%;
+		height: 150px;
+	}
+	.item-image-container{
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		border-radius: 3px;
+		text-align: center;
+		border: 1px solid rgba(42, 27, 9, .4);
+		margin-bottom: 15px;
+	}
+	.item-price{
+		padding: 1%;
+		border: 1px solid gray;
+		text-align: center;
+	}
+	.item-description{
+		padding: 1%;
+		border: 1px solid gray;
+		text-align: center;
+	}
+	.item-add-cart{
+		width: 100%;
+		padding: 1%;
+		margin-top: 15px;
+		margin-bottom: 100px;
+		text-align: center;
+	}
+	.amount-place-holder{
+		width: 100%;
+		text-align: center;
+		border-radius: 5px;
+	}
+	.cart-dividers{
+		text-align: center;
+		width: 70px;
+		display: inline-block;
+	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+	.disabled-minus{
+		cursor: not-allowed;
+	}
+	.popup-tables{display: inline-block; padding: 0 2%;}
+@media screen and (max-width: 991px){
+	.item-image{
+		height: 250px;
+	}
+	.sauce-pans{
+		padding: 0 20%;
+	}
+}
+@media screen and (max-width: 599px){
+	.sauce-pans{
+		padding: 0 15%;
+	}
+	.title-break{
+		display: block !important;
+	}
+}
+@media screen and (max-width: 350px){
+	.item-image{
+		height: 200px;
+	}
+	.sauce-pans{
+		padding: 0 15%;
+	}
+}
+</style>
+	{% if id_user %}
+	{% if id_user.user_name %}
+	<div class="welcome-shopping-block" style="position: fixed; top: 0; right: 0; background-color: #0E0903; color: #e6e6e6; padding: 0.5% 2%; z-index: 1050; border: 1px solid gray; border-radius: 0 0 0 17px;">WELCOME {% if not creation_status %}BACK{% endif %} {{ id_user.user_name.upper }}</div>
+	<script>setTimeout(function(){$('.welcome-shopping-block').slideUp();}, 15000);</script>
+	{% endif %}
+	{% endif %}
+
+
+ <div id="top" class="fixed-bg-top" style="text-align: center;">
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+	<div style="text-align: center; z-index: 10;">
+	<h1 style="color: white;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 1%; background-color: rgba(0, 0, 0, 0.5);">Welcome to <br class="title-break" style="display: none;">The Mini Market</span></h1>
+	<button onclick="slideSiteHeader()" class="btn btn-danger" style="outline: none; background-color: rgba(203, 52, 52, .7);">{% if id_user %}Continue{% else %}Start{% endif %} Shopping</button>
+	<h1 class="market-cta" style="color: white; margin-top: 10px"><a href="#start-shopping-block" class="header-arrow-down" style="color: #f8f8f8;"><i class="glyphicon glyphicon-chevron-down"></i></a></h1>
+	</div>
+ </div>
+
+	<div id="start-shopping-block" class="container big-contamins" style="border: 1px solid darkgray; padding: 1%; margin-top: 2%; margin-bottom: 2%; background-color: white;">
+		<div>
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/tomato-2.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Fresh Tomatoes</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$5.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(1)" class="item1 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input id="bar-code-1" type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item1" ng-change="Revolver(1)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(1)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/apple-2.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Fresh Apples</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$5.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(2)" class="item2 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item2" ng-change="Revolver(2)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(2)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/pumpkin-2.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Monster Pumpkins</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$17.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(3)" class="item3 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item3" ng-change="Revolver(3)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(3)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/pitaya-1.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Delicious Pitaya</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$35.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(4)" class="item4 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item4" ng-change="Revolver(4)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(4)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<!-------------------------------------------------------->
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/fries-1.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>French Fries</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$12.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(5)" class="item5 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item5" ng-change="Revolver(5)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(5)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/salad-1.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Oriental Salad</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$16.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(6)" class="item6 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item6" ng-change="Revolver(6)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(6)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/berries-1.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Blackberries</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$3.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(7)" class="item7 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item7" ng-change="Revolver(7)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(7)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-sm-12 sauce-pans">
+				<div class="item-image-container">
+					<img src="{% static 'website/images/tart-1.jpg' %}" class="item-image">
+				</div>
+				<div class="col-md-6 col-sm-12 item-description">
+					<span>Succulent Tart</span>
+				</div>
+				<div class="col-md-6 col-sm-12 item-price">
+					<span>$35.99</span>
+				</div>
+				<div class="col-md-12 col-sm-12 item-add-cart">
+					<div ng-click="MinusOne(8)" class="item8 cart-dividers btn disabled-minus btn-default">
+						<i class="glyphicon glyphicon-minus"></i>
+					</div>
+					<div class="cart-dividers">
+						<input type="number" placeholder="0" min="0" class="amount-place-holder" ng-model="item8" ng-change="Revolver(8)" oninput="this.value = Math.abs(this.value)">
+					</div>
+					<div ng-click="PlusOne(8)" class="cart-dividers btn btn-info">
+						<i class="glyphicon glyphicon-plus"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<!-- Modal -->
+	<div class="container">
+	<!-- Trigger the modal with a button -->
+	<div id="cart-floater-container" style="position: fixed; right: 17px; bottom: 0; text-align: right; display: none; z-index: 1050;">
+	<input style="width: 70px; cursor: default; text-align: right;" type="text" {% verbatim %}value="${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}"{% endverbatim %} disabled>
+	<button onclick="hideCheckoutForm()" style="border-radius: 100%; outline: none; box-shadow: 0 4px 8px 0 rgba(42, 27, 9, .9), 0 6px 20px 0 rgba(42, 27, 9, .19);" type="button" class="btn btn-default btn-lg cart-show-button" data-toggle="modal" data-target="#carter"><i class="glyphicon glyphicon-shopping-cart"></i></button>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="carter" role="dialog">
+		<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title" style="text-align: center;"><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i> Items in your cart <i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></h4>
+			</div>
+			<div class="modal-body">
+			{% verbatim %}
+			<div style="text-align: center;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3%;">Total Amount: <span style="font-weight: bold;">${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}</span></span></div>
+			<hr>
+			<!-- Test tables 2 -->
+			<div style="text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3% 0 0 0;">
+				<div ng-repeat="test in arrayDescriptions track by $index">
+				<div>
+				<div class="popup-tables">
+				<table>
+					<tr>
+						<td style="width: 130px;">{{test}}</td>
+					</tr>
+				</table>
+				</div>
+				<div class="popup-tables">
+				<table>
+					<tr>
+						<td><input ng-value="Tabler(test)" type="text" style="cursor: default; background-color:white; border: none; width: 45px; text-align: center;" disabled></td>
+					</tr>
+				</table>
+				</div>
+				<div class="popup-tables">
+				<table>
+					<tr>
+						<td><button class="btn remove-sign-trigger-{{ TablerIndexer(test) }}" ng-click="NewTriggerRemoveFromCart(test)" style="border: none; background-color: white; padding: 0 10px;"><i class="glyphicon glyphicon-remove-sign" style="color: brown;"></i></button></td>
+					</tr>
+				</table>
+				</div>
+				<div>
+					<div class="deleting-block-{{ TablerIndexer(test) }}" style="display: none;">
+						<p>Do you want to remove this item from your cart?</p>
+						<button type="button" ng-click="NewPooper(test)" class="btn btn-danger">Yes</button>
+						<button type="button" class="btn btn-info cancel-deleting-block-{{ TablerIndexer(test) }}" ng-click="NewCancelRemoveFromCart(test)">No</button>
+					</div>
+				</div>
+				<br>
+				</div>
+				</div>
+			</div>
+			<!-- End Test tables 2 -->
+			{% endverbatim %}
+
+			</div>
+			<div class="modal-footer" style="text-align: center;">
+			{% if id_user.item_delivery %}
+			<button class="btn btn-default countdown-trigger-button" title="Delivery time" type="button" style="float: left; outline: none;" onclick="showCountdown()"><i class="glyphicon glyphicon-globe"></i><i class="glyphicon glyphicon-log-in"></i></button>
+			{% endif %}
+			<button class="btn btn-default popup-checkout-button" style="background-color: rgba(153, 0, 0, .8); color: white;" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+	<!-- End Modal -->
+
+	<!-- Frame -->
+	<div id="market-super-frame-conatiner" class="form-group" style="display: none; position: fixed; right: 1px; bottom: 35px;  border-radius: 3px; padding: 0 2%; background-color: #f7f7f7; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+		<div style="width: 100%; text-align: right;"><button type="button" class="close" onclick="hideCheckoutForm()" style="outline: none; color: brown; font-size: 25pt;">&times;</button></div>
+		<iframe id="market-super-frame" src="/contact_frame" style="width: 100%; border: 1px solid transparent; height: 32em;">
+		</iframe>
+	</div>
+	<!-- End Frame -->
+
+	<!-- Counter -->
+	<div class="delivery-countdown-container" style="display: none; text-align: center; position: fixed; left: 0; bottom: 10px; background-color: #f7f7f7; border: 1px solid #f8f8f8; width: 145px; height: 27px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); z-index: 1050;">
+		<div style="width: 100%; text-align: right; position: relative; top: -22px;"><button type="button" class="close" onclick="slideCountdown()" style="outline: none; color: black; font-weight: bold; font-size: 18pt; padding:0">&times;</button></div>
+		<!--<p id="demo" style="font-size: 15px; width: 100%;"></p>-->
+		<input id="demo" style="width: 125px; cursor: default; text-align: center; background-color: #f7f7f7; border: none; padding-top: 4px; padding-left: 25px;" type="text" disabled>
+		<i style="position: relative; float: left; top: -20px;" class="glyphicon glyphicon-globe"></i>
+	</div>
+	<!-- End counter -->
+
+
+<!-- Receiving Django Saved Values -->
+<script>
+	var receivedTotalItems = 0;
+	var receivedItemQuantities = [];
+	var receivedItemIndexes = [];
+	var receivedItemDescriptions = [];
+	var redirect_after_completion = "{% url 'website:index' %}";
+
+	{% if saved_total_of_items %}
+	receivedTotalItems = {{saved_total_of_items}};
+	{% endif %}
+
+	{% if saved_quantities_of_items %}
+	{% for data in saved_quantities_of_items %}
+	receivedItemQuantities.push('{{data}}');
+	{% endfor %}
+	{% endif %}
+
+	{% if saved_indexes_of_items %}
+	{% for data in saved_indexes_of_items %}
+	receivedItemIndexes.push('{{data}}');
+	{% endfor %}
+	{% endif %}
+
+	{% if saved_description_of_items %}
+	{% for data in saved_description_of_items %}
+	receivedItemDescriptions.push('{{data}}');
+	{% endfor %}
+	{% endif %}
+
+</script>
+<!-- End Receiving Django Saved Values -->
+
+{% verbatim %}
+<!-- Angular Important Fields -->
+<div style="display: none;">
+<input style="width: 100%;" id="total-value-of-items" name="total-value-of-items" type="hidden" value="{{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}">
+<input style="width: 100%;" id="items-and-quantities" name="items-and-quantities" type="hidden" value="{{ arrayQuantities }}">
+<input style="width: 100%;" id="items-and-indexes" name="items-and-indexes" type="hidden" value="{{ arrayIndexes }}">
+<input style="width: 100%;" id="item-descriptions" name="item-descriptions" type="hidden" value="{{ arrayDescriptions }}">
+<button class="complete-purchase-trigger" type="button" style="display: none;" ng-click="Exterminator()">Complete Purchase</button>
+</div>
+
+<script>
+/* Prevent negatives in inputs */
+function preventNegativa(index){
+	var number = document.getElementById(index);
+	number.onkeydown = function(e) {
+			if(!((e.keyCode > 95 && e.keyCode < 106)
+			|| (e.keyCode > 47 && e.keyCode < 58) 
+			|| e.keyCode == 8)) {
+				return false;
+			}
+		}
+}
+/* End negatives */
+
+/* Fill this up with Django */
+var products = [
+  	{ 
+    	name: 'Fresh Tomatoes', 
+    	price: 5.99, 
+    	quantity: 0,
+  	},
+  	{ 
+    	name: 'Fresh Apples', 
+    	price: 5.99, 
+    	quantity: 0,
+  	},
+  	{ 
+    	name: 'Monster Pumpkins', 
+    	price: 17.99, 
+    	quantity: 0,
+  	},
+  	{ 
+    	name: 'Delicious Pitaya', 
+    	price: 35.99, 
+    	quantity: 0,
+  	},
+  	{ 
+    	name: 'French Fries', 
+    	price: 12.99, 
+    	quantity: 0,
+  	}, 
+  	{ 
+    	name: 'Oriental Salad', 
+    	price: 16.99, 
+    	quantity: 0,
+  	},
+	{ 
+    	name: 'Blackberries', 
+    	price: 3.99, 
+    	quantity: 0,
+  	},
+  	{ 
+    	name: 'Succulent Tart', 
+    	price: 35.99, 
+    	quantity: 0,
+  	},
+	];
+/* End */
+
+/* Trigger Cart popup */
+function showCart(){
+	//alert(document.getElementById('total-value-of-items').value);
+	if(document.getElementById('total-value-of-items').value == '0'){
+		$('#cart-floater-container').fadeOut('fast');
+		$('.popup-checkout-button').fadeOut(100);
+	} else {
+		$('#cart-floater-container').fadeIn('fast');
+		$('.popup-checkout-button').fadeIn('fast');
+	}
+}
+/* End Trigger Cart popup */
+
+/* Hide Checkout */
+function hideCheckoutForm(){
+	$('#market-super-frame-conatiner').fadeOut(100);
+	$('.cart-show-button').removeClass('btn-danger');
+	$('.cart-show-button').addClass('btn-default');
+}
+/* End Hide Checkout */
+
+/* Slide Checkout */
+function slideCheckoutForm(){
+	$('#market-super-frame-conatiner').slideUp();
+	$('.cart-show-button').removeClass('btn-danger');
+	$('.cart-show-button').addClass('btn-default');
+}
+/* End Hide Checkout */
+
+/* Show Checkout */
+function showCheckoutForm(){
+	$('#market-super-frame-conatiner').fadeIn(100);
+	$('.cart-show-button').removeClass('btn-default');
+	$('.cart-show-button').addClass('btn-danger');
+}
+/* End Show Checkout */
+
+/* Function to trigger ajax click */
+function sendToAjax(){
+	slideCheckoutForm();
+	setTimeout(function(){showCart();}, 500);
+	setTimeout(function(){$("#total-value-of-items").trigger("click");}, 1000);
+}
+/* End Function to trigger ajax click */
+
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+	/* Market Scope */
+	$scope.item1 = products[0].quantity;
+	$scope.itemValue1 = products[0].price;
+
+	$scope.item2 = products[1].quantity;
+	$scope.itemValue2 = products[1].price;
+
+	$scope.item3 = products[2].quantity;
+	$scope.itemValue3 = products[2].price;
+
+	$scope.item4 = products[3].quantity;
+	$scope.itemValue4 = products[3].price;
+
+	$scope.item5 = products[4].quantity;
+	$scope.itemValue5 = products[4].price;
+
+	$scope.item6 = products[5].quantity;
+	$scope.itemValue6 = products[5].price;
+
+	$scope.item7 = products[6].quantity;
+	$scope.itemValue7 = products[6].price;
+
+	$scope.item8 = products[7].quantity;
+	$scope.itemValue8 = products[7].price;
+
+	$scope.PlusOne = function(index){
+		var item_value = 'item' + index.toString();
+		this[item_value] += 1;
+		$('.' + item_value).removeClass('disabled-minus btn-default');
+		$('.' + item_value).addClass('btn-danger');
+		var description = index - 1;
+		if($scope.arrayDescriptions.indexOf(products[description].name) != -1){
+			/* pop and lock item name */
+			var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+			$scope.arrayDescriptions.splice(indexRevalued, 1, products[description].name);
+
+			/* pop and lock item quantity */
+			var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+			$scope.arrayQuantities.splice(indexQuantity, 2, products[description].name, this[item_value]);
+
+			/* pop and lock scope ids */
+			var indexID = $scope.arrayIndexes.indexOf(products[description].name);
+			$scope.arrayIndexes.splice(indexID, 2, products[description].name, index);
+			
+		} else {
+			$scope.arrayDescriptions.push(products[description].name);
+			$scope.arrayEmbryonic.push(products[description].name);
+			$scope.arrayQuantities.push(products[description].name);
+			$scope.arrayQuantities.push(this[item_value]);
+			$scope.arrayIndexes.push(products[description].name);
+			$scope.arrayIndexes.push(index);
+		}
+		sendToAjax();
+	};
+
+	$scope.MinusOne = function(index){
+		var item_value = 'item' + index.toString();
+		if (this[item_value] != 0){
+			this[item_value] -= 1;
+			var description = index - 1;
+
+			if($scope.arrayDescriptions.indexOf(products[description].name) != -1){
+				/* pop and lower item quantity */
+				var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+				$scope.arrayQuantities.splice(indexQuantity, 2, products[description].name, this[item_value]);	
+			}
+
+			if (this[item_value] == 0){
+				$('.' + item_value).removeClass('btn-danger');$('.' + item_value).addClass('disabled-minus btn-default');
+				/* pop and blow items */
+				var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+				$scope.arrayDescriptions.splice(indexRevalued, 1);
+				$scope.arrayEmbryonic.splice(indexRevalued, 1);
+
+				var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+				$scope.arrayQuantities.splice(indexQuantity, 2);
+
+				/* blow scope ids */
+				var indexID = $scope.arrayIndexes.indexOf(products[description].name);
+				$scope.arrayIndexes.splice(indexID, 2);
+			}
+		} else {
+			$('.' + item_value).removeClass('btn-danger');
+			$('.' + item_value).addClass('disabled-minus btn-default');
+			/* pop and blow items */
+			var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+			$scope.arrayDescriptions.splice(indexRevalued, 1);
+
+			var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+			$scope.arrayQuantities.splice(indexQuantity, 2);
+
+			/* blow scope ids */
+			var indexID = $scope.arrayIndexes.indexOf(products[description].name);
+			$scope.arrayIndexes.splice(indexID, 2);
+		}
+		sendToAjax();
+	};
+
+	$scope.Revolver = function(index){
+		if(index != null){
+			var item_value = 'item' + index.toString();
+			var description = index - 1;
+
+			if (this[item_value] != 0){
+				$('.' + item_value).removeClass('disabled-minus btn-default');
+				$('.' + item_value).addClass('btn-danger');
+
+				if($scope.arrayDescriptions.indexOf(products[description].name) != -1){
+					var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+					$scope.arrayDescriptions.splice(indexRevalued, 1, products[description].name);
+					var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+					$scope.arrayQuantities.splice(indexQuantity, 2, products[description].name, this[item_value]);
+					/* pop and lock scope ids */
+					var indexID = $scope.arrayIndexes.indexOf(products[description].name);
+					$scope.arrayIndexes.splice(indexID, 2, products[description].name, index);	
+				} else {
+					$scope.arrayDescriptions.push(products[description].name);
+					$scope.arrayEmbryonic.push(products[description].name);
+					$scope.arrayQuantities.push(products[description].name);
+					$scope.arrayQuantities.push(this[item_value]);
+					$scope.arrayIndexes.push(products[description].name);
+					$scope.arrayIndexes.push(index);
+				}
+
+			} else {
+				$('.' + item_value).removeClass('btn-danger');
+				$('.' + item_value).addClass('disabled-minus btn-default');
+				if($scope.arrayDescriptions.indexOf(products[description].name) != -1){
+					var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+					$scope.arrayDescriptions.splice(indexRevalued, 1);
+					var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+					$scope.arrayQuantities.splice(indexQuantity, 2);
+					/* blow scope ids */
+					var indexID = $scope.arrayIndexes.indexOf(products[description].name);
+					$scope.arrayIndexes.splice(indexID, 2);
+				}
+			}
+			sendToAjax();
+		}
+	};
+
+  function popThemAll(indexer){
+	var index = parseInt(indexer);
+	switch (index) {
+		case 1:
+			$scope.item1 = 0;
+			break;
+		case 2:
+			$scope.item2 = 0;
+			break;
+		case 3:
+			$scope.item3 = 0;
+			break;
+		case 4:
+			$scope.item4 = 0;
+			break;
+		case 5:
+			$scope.item5 = 0;
+			break;
+		case 6:
+			$scope.item6 = 0;
+			break;
+		case  7:
+			$scope.item7 = 0;
+			break;
+		case 8:
+			$scope.item8 = 0;
+			break;
+	}
+  }
+
+	$scope.Pooper = function(index){
+		if(index != null){
+			var item_value = 'item' + index.toString();
+			var description = index - 1;
+
+			if($scope.arrayDescriptions.indexOf(products[description].name) != -1){
+				var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+				$scope.arrayDescriptions.splice(indexRevalued, 1);
+				var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+				$scope.arrayQuantities.splice(indexQuantity, 2);
+				$('.' + item_value).removeClass('btn-danger');
+				$('.' + item_value).addClass('disabled-minus btn-default');
+				$(".deleting-block" + index.toString()).fadeOut("fast");
+				popThemAll(index);
+				sendToAjax();
+			}
+		}
+	};
+
+	/* New Pooper */
+	$scope.NewPooper = function(index){
+		if(index != null){
+			if($scope.arrayIndexes.indexOf(index) != -1){
+				var idxRevalued = $scope.arrayIndexes.indexOf(index);
+				var enumerator = $scope.arrayIndexes[idxRevalued+1];
+				var item_value = 'item' + enumerator.toString();
+				var description = enumerator - 1;
+				var indexRevalued = $scope.arrayDescriptions.indexOf(products[description].name);
+				$scope.arrayDescriptions.splice(indexRevalued, 1);
+				var indexQuantity = $scope.arrayQuantities.indexOf(products[description].name);
+				$scope.arrayQuantities.splice(indexQuantity, 2);
+				$scope.arrayIndexes.splice(idxRevalued, 2);
+				$('.' + item_value).removeClass('btn-danger');
+				$('.' + item_value).addClass('disabled-minus btn-default');
+				$(".deleting-block-" + enumerator.toString()).fadeOut("fast");
+				popThemAll(enumerator);
+				sendToAjax();
+			}
+		}
+	};
+
+	$scope.TriggerRemoveFromCart = function(index){
+		$(".deleting-block" + index.toString()).fadeIn();
+		$(".remove-sign-trigger" + index.toString()).fadeOut("fast");
+	};
+
+	$scope.CancelRemoveFromCart = function(index){
+		$(".deleting-block" + index.toString()).fadeOut("fast");
+		$(".remove-sign-trigger" + index.toString()).fadeIn();
+	};
+
+
+	/* Tabler for popup */
+	$scope.Tabler = function(index){
+		if(index != null){
+			if($scope.arrayQuantities.indexOf(index) != -1){
+				var qtyRevalued = $scope.arrayQuantities.indexOf(index);
+				return $scope.arrayQuantities[qtyRevalued+1];
+			}
+		}
+	};
+	/* Tabler for popup */
+
+	/* Tabler Indexer for popup */
+	$scope.TablerIndexer = function(index){
+		if(index != null){
+			if($scope.arrayIndexes.indexOf(index) != -1){
+				var idxRevalued = $scope.arrayIndexes.indexOf(index);
+				return $scope.arrayIndexes[idxRevalued+1];
+			}
+		}
+	};
+	/* End Tabler Indexer for popup */
+
+	/* Tabler trigger */
+	$scope.NewTriggerRemoveFromCart = function(index){
+		if(index != null){
+			if($scope.arrayIndexes.indexOf(index) != -1){
+				var qtyRevalued = $scope.arrayIndexes.indexOf(index);
+				var enumerator = $scope.arrayIndexes[qtyRevalued+1];
+				$(".deleting-block-" + enumerator.toString()).fadeIn();
+				$(".remove-sign-trigger-" + enumerator.toString()).fadeOut("fast");
+			}
+		}
+	};
+	/* End Tabler trigger */
+
+	$scope.NewCancelRemoveFromCart = function(index){
+		if(index != null){
+			if($scope.arrayIndexes.indexOf(index) != -1){
+				var qtyRevalued = $scope.arrayIndexes.indexOf(index);
+				var enumerator = $scope.arrayIndexes[qtyRevalued+1];
+				$(".deleting-block-" + enumerator.toString()).fadeOut("fast");
+				$(".remove-sign-trigger-" + enumerator.toString()).fadeIn();
+			}
+		}
+
+	};
+
+
+	/* Array of product names */
+    $scope.arrayDescriptions = receivedItemDescriptions;
+
+	/* Array of product quantities */
+    $scope.arrayQuantities = receivedItemQuantities;
+
+	/* Array of product dicts */
+    $scope.arrayEmbryonic = [];
+
+	/* Array of scope Indexes */
+	$scope.arrayIndexes = receivedItemIndexes;
+
+var stockProducts = [
+  	{ 
+    	name: 'Fresh Tomatoes',
+  	},
+  	{ 
+    	name: 'Fresh Apples', 
+  	},
+  	{ 
+    	name: 'Monster Pumpkins', 
+  	},
+  	{ 
+    	name: 'Delicious Pitaya', 
+  	},
+  	{ 
+    	name: 'French Fries',
+  	},
+  	{ 
+    	name: 'Oriental Salad', 
+  	},
+  	{ 
+    	name: 'Blackberries', 
+  	},
+  	{ 
+    	name: 'Succulent Tart', 
+  	},
+	];
+  function assignThemAll(indexer, qty){	
+	var idx = parseInt(indexer);
+	switch (idx) {
+		case 1:
+			$scope.item1 = qty;
+			$('.item1').removeClass('disabled-minus btn-default');$('.item1').addClass('btn-danger');
+			break;
+		case 2:
+			$scope.item2 = qty;
+			$('.item2').removeClass('disabled-minus btn-default');$('.item2').addClass('btn-danger');
+			break;
+		case 3:
+			$scope.item3 = qty;
+			$('.item3').removeClass('disabled-minus btn-default');$('.item3').addClass('btn-danger');
+			break;
+		case 4:
+			$scope.item4 = qty;
+			$('.item4').removeClass('disabled-minus btn-default');$('.item4').addClass('btn-danger');
+			break;
+		case 5:
+			$scope.item5 = qty;
+			$('.item5').removeClass('disabled-minus btn-default');$('.item5').addClass('btn-danger');
+			break;
+		case 6:
+			$scope.item6 = qty;
+			$('.item6').removeClass('disabled-minus btn-default');$('.item6').addClass('btn-danger');
+			break;
+		case  7:
+			$scope.item7 = qty;
+			$('.item7').removeClass('disabled-minus btn-default');$('.item7').addClass('btn-danger');
+			break;
+		case 8:
+			$scope.item8 = qty;
+			$('.item8').removeClass('disabled-minus btn-default');$('.item8').addClass('btn-danger');
+			break;
+	}
+	
+  }
+
+for (var i = 0; i < stockProducts.length; i++) {	
+	if($scope.arrayIndexes.indexOf(products[i].name) != -1){
+		var foundPosition = $scope.arrayIndexes.indexOf(products[i].name);
+		var foundIndex = $scope.arrayIndexes[foundPosition + 1];
+		var foundQuantity = parseInt($scope.arrayQuantities[foundPosition + 1]);
+		assignThemAll(foundIndex, foundQuantity);
+	}
+}
+
+setTimeout(function(){showCart();}, 500);
+
+	$scope.Exterminator = function(){
+		$scope.item1 = 0;
+		$('.item1').addClass('disabled-minus btn-default');$('.item1').removeClass('btn-danger');
+		$scope.item2 = 0;
+		$('.item2').addClass('disabled-minus btn-default');$('.item2').removeClass('btn-danger');
+		$scope.item3 = 0;
+		$('.item3').addClass('disabled-minus btn-default');$('.item3').removeClass('btn-danger');
+		$scope.item4 = 0;
+		$('.item4').addClass('disabled-minus btn-default');$('.item4').removeClass('btn-danger');
+		$scope.item5 = 0;
+		$('.item5').addClass('disabled-minus btn-default');$('.item5').removeClass('btn-danger');
+		$scope.item6 = 0;
+		$('.item6').addClass('disabled-minus btn-default');$('.item6').removeClass('btn-danger');
+		$scope.item7 = 0;
+		$('.item7').addClass('disabled-minus btn-default');$('.item7').removeClass('btn-danger');
+		$scope.item8 = 0;
+		$('.item8').addClass('disabled-minus btn-default');$('.item8').removeClass('btn-danger');
+	};
+
+});
+</script>
+<!-- End Test -->
+{% endverbatim %}
+
+<!--
+	<br>
+<footer class="avenirRegular" style="background-color: black; clear: both; color: white; padding: 1%; text-align: center;">
+	<h4>Copyright © 2018 Mini Market, All rights reserved.</h4>
+</footer>
+-->
+
+
+
+
+<script>
+$("#total-value-of-items").click(function(){
+	var totalOfItems = document.getElementById('total-value-of-items').value;
+	var quantitiesOfItems = document.getElementById('items-and-quantities').value;
+	var indexesOfItems = document.getElementById('items-and-indexes').value;
+	var descriptionOfItems = document.getElementById('item-descriptions').value;
+
+	$.ajax({
+	url: '/ajax/totalizer/',
+	data: {
+		'totalOfItems': totalOfItems,
+		'quantitiesOfItems': quantitiesOfItems,
+		'indexesOfItems': indexesOfItems,
+		'descriptionOfItems': descriptionOfItems
+	},
+	dataType: 'json',
+	success: function (data) {
+		if (data.is_taken) {
+		//alert("A user with this username already exists.");
+		}
+	}
+	});
+
+});
+</script>
+
+<!-- Frame close script -->
+
+<script>
+window.addEventListener('message', receiveMessage, false);
+function receiveMessage(evt){
+	/* Claim successful purchase */
+	if(evt.data == 'Successful Purchase'){$(".complete-purchase-trigger").trigger("click");}
+	/* End Claim successful purchase */
+
+	/* Terminate Transaction */
+	if(evt.data == 'Completed'){$('#market-super-frame-conatiner').fadeOut(1000);window.location = redirect_after_completion;}
+	/* End Terminate Transaction */
+	
+	//location.reload();	
+}
+</script>
+
+<!-- End frame close -->
+
+<!-- Header Effect -->
+<script>function slideSiteHeader(){	$('#top').fadeOut('slow');}</script>
+<!-- End Header Effect -->
+
+<!-- Smooth Scrolling -->
+<script>
+$(document).ready(function(){
+	$(".market-cta a[href^='#']").on('click', function(e) {
+	   // prevent default anchor click behavior
+	   e.preventDefault();
+	   // store hash
+	   var hash = this.hash;
+	   // animate
+	   $('html, body').animate({
+		   scrollTop: $(hash).offset().top
+		 }, 300, function(){
+		   // when done, add hash to url
+		   slideSiteHeader();
+		});
+	});
+});
+</script>
+<!-- End Smooth Scrolling -->
+
+<!-- Countdown Script -->
+<script>
+// Set the date we're counting down to
+{% if id_user.item_delivery %}
+var endDate = "{{ id_user.item_delivery|date:'M d, Y H:i:s' }}";
+{% else %}
+var today = new Date();
+var tomorrow = new Date();
+var endDate = tomorrow.setDate(today.getDate()+1);
+{% endif %}
+
+var countDownDate = new Date(endDate).getTime();
+//var countDownDate = new Date("Jan 25, 2018 15:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+	/*distance = customTime;*/
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    //document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+    //+ minutes + "m " + seconds + "s ";
+	document.getElementById("demo").value = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "Delivered";
+    }
+}, 1000);
+
+</script>
+<!-- End Countdown Script -->
+
+<!-- Countdown float -->
+<script>
+function slideCountdown(){
+	$('.delivery-countdown-container').slideUp();
+	$('.countdown-trigger-button').toggleClass('btn-default');
+	$('.countdown-trigger-button').toggleClass('btn-success');
+}
+function showCountdown(){
+	$('.delivery-countdown-container').slideToggle();
+	$('.countdown-trigger-button').toggleClass('btn-default');
+	$('.countdown-trigger-button').toggleClass('btn-success');
+}
+</script>
+<!-- End Countdown float -->
+
+</body>
+</html>

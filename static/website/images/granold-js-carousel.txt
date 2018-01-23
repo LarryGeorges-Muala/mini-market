@@ -1,0 +1,110 @@
+	  <style>
+.granold-slides {display: none;}
+.granold-slides img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* The dots/bullets/indicators */
+.slide-dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.slide-active {
+  background-color: #717171;
+}
+
+.slide-picture{
+	height: 200px;
+	-webkit-transition: display 0.8s; /* Safari */
+    transition: display 0.8s;
+}
+
+.carousel-indicators .active {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    background-color: #717171 !important;
+	border: 1px solid #717171 !important;
+}
+
+/* Fading animation */
+.slide-fade {
+  -webkit-animation-name: slide-fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: slide-fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes slide-fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes slide-fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+</style>
+<!--
+<div class="slideshow-container">
+
+<div class="granold-slides slide-fade">
+  <img src="resources/img/granold/service-pic-4.jpg" class="slide-picture">
+</div>
+
+<div class="granold-slides slide-fade">
+  <img src="resources/img/granold/service-pic-3.jpg" class="slide-picture">
+</div>
+
+<div class="granold-slides slide-fade">
+  <img src="resources/img/granold/service-pic-2.jpg" class="slide-picture">
+</div>
+
+<div class="granold-slides slide-fade">
+  <img src="resources/img/granold/service-pic-1.jpg" class="slide-picture">
+</div>
+
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="slide-dot"></span> 
+  <span class="slide-dot"></span> 
+  <span class="slide-dot"></span>
+  <span class="slide-dot"></span> 
+</div>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("granold-slides");
+    var dots = document.getElementsByClassName("slide-dot");
+    for (i = 0; i < slides.length; i++) {
+       slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" slide-active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " slide-active";
+    setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
+-->
