@@ -192,6 +192,7 @@ def sheet_angular(request):
 	}
 	return render(request, 'website/sheet_angular.html', context)
 
+@minified_response
 def frame_form(request):
 	''' Init IP recording '''
 	id_user = None
