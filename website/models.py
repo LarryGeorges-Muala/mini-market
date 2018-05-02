@@ -54,29 +54,32 @@ class User(models.Model):
 	def __str__(self):
 		return self.user_ip
 
-'''
+
 class Grocery(models.Model):
 	
-	user_name = models.CharField(max_length=200)
-	user_last_name = models.CharField(max_length=200)
-	user_password = models.CharField(max_length=200)
-	user_contact = models.CharField(max_length=200)
-	user_email = models.EmailField(max_length=254)
-
+	name = models.CharField(max_length=200)
+	price = models.CharField(max_length=200)
+	quantity = models.IntegerField(default=0)
+	
+	url = models.ImageField(upload_to='groceries', default='', null=True)
 
 	def __str__(self):
-		return self.user_name
-		
+		return self.url
+
+	def initialize_item_for_display(self):
+		temporary_dict = {
+			'name': self.name,
+			'price': self.price,
+			'quantity': self.quantity,
+			'url': '/media/' + str(self.url) if self.url else self.url,
+		}
+		return temporary_dict
+
 	def __str__(self):
-		return self.user_password
-		
-	def __str__(self):
-		return self.user_contact
-				
-	def __str__(self):
-		return self.user_email
+		return self.name
 
 
+'''
 class Cart(models.Model):
 
 	def time_under_timezone():

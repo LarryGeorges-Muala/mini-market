@@ -1,3 +1,6 @@
+<!-- ------------------- -->
+<!-- Experimental BackUP -->
+<!-- ------------------- -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +11,7 @@
   <link rel="shortcut icon" type="image/png" href="{% static 'website/images/favicon.png' %}"/>
   <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
-  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
   <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
 
@@ -22,19 +25,33 @@
   <!-- End Off django -->
 
   <script src="{% static 'website/boots/js/angular.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/angular.min.js.map' %}"></script>
 </head>
-<body style="font-family: 'Roboto', sans-serif; background-color: #f8f8f8;" ng-app="myApp" ng-controller="myCtrl">
+<body id="complete-control" style="font-family: 'Roboto', sans-serif; background-color: #f8f8f8;" ng-app="myApp" ng-controller="myCtrl">
 <style>
+	.fixed-bg-top {
+		background-image: url("{% static 'website/images/header-1-compressor.jpg' %}");
+		min-height: 650px;
+		background-size: 100% 100%;
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: no-repeat;
+		min-width: 100%;
+		background-color: rgba(42, 27, 9, .9);
+	}
+	.header-arrow-down i:hover{
+		color: rgba(203, 52, 52, 0.829);
+	}
 	.item-image{
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		width: 100px;
+		width: 100%;
 		height: 150px;
 	}
 	.item-image-container{
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 		border-radius: 3px;
 		text-align: center;
-		border: 1px solid #f7f7f7;
+		border: 1px solid rgba(42, 27, 9, .4);
 		margin-bottom: 15px;
 	}
 	.item-price{
@@ -77,23 +94,70 @@
 		cursor: not-allowed;
 	}
 	.popup-tables{display: inline-block; padding: 0 2%;}
+@media screen and (max-width: 991px){
+	.item-image{
+		height: 250px;
+	}
+	.sauce-pans{
+		padding: 0 20%;
+	}
+}
+@media screen and (max-width: 599px){
+	.sauce-pans{
+		padding: 0 15%;
+	}
+	.title-break{
+		display: block !important;
+	}
+}
+@media screen and (max-width: 350px){
+	.item-image{
+		height: 200px;
+	}
+	.sauce-pans{
+		padding: 0 15%;
+	}
+}
 </style>
+	{% if id_user %}
 	{% if id_user.user_name %}
-	<div class="welcome-shopping-block" style="position: fixed; top: 0; right: 0; background-color: #f8f8f8; padding: 0.5% 2%; z-index: 1050; border: 1px solid gray; border-radius: 0 0 0 17px;">WELCOME {% if not creation_status %}BACK{% endif %} {{ id_user.user_name.upper }}</div>
+	<div class="welcome-shopping-block" style="position: fixed; top: 0; right: 0; background-color: #0E0903; color: #e6e6e6; padding: 0.5% 2%; z-index: 1050; border: 1px solid gray; border-radius: 0 0 0 17px;">WELCOME {% if not creation_status %}BACK{% endif %} {{ id_user.user_name.upper }}</div>
 	<script>setTimeout(function(){$('.welcome-shopping-block').slideUp();}, 15000);</script>
 	{% endif %}
+	{% endif %}
 
-	<div class="container" style="border: 1px solid darkgray; padding: 1%; margin-top: 2%; margin-bottom: 2%; background-color: white;">
+
+ <div id="top" class="fixed-bg-top" style="text-align: center;">
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+	<div style="text-align: center; z-index: 10;">
+	<h1 style="color: white;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 1%; background-color: rgba(0, 0, 0, 0.5);">Welcome to <br class="title-break" style="display: none;">The Mini Market</span></h1>
+	<button onclick="slideSiteHeader()" class="btn btn-danger" style="outline: none; background-color: rgba(203, 52, 52, .7);">{% if id_user %}Continue{% else %}Start{% endif %} Shopping</button>
+	<h1 class="market-cta" style="color: white; margin-top: 10px"><a href="#start-shopping-block" class="header-arrow-down" style="color: #f8f8f8;"><i class="glyphicon glyphicon-chevron-down"></i></a></h1>
+	</div>
+ </div>
+
+	<div id="start-shopping-block" class="container big-contamins" style="border: 1px solid darkgray; padding: 1%; margin-top: 2%; margin-bottom: 2%; background-color: white;">
 		<div>
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/tomato-1.jpg' %}" class="item-image">
+					<img id="item-1-picture-holder" src="{% static 'website/images/resized/tomato-2-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Fresh Tomatoes</span>
+					<span id="item-1-name-holder">Fresh Tomatoes</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$5.99</span>
+					<span id="item-1-price-holder">$5.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(1)" class="item1 cart-dividers btn disabled-minus btn-default">
@@ -108,15 +172,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/apple-1.jpg' %}" class="item-image">
+					<img id="item-2-picture-holder" src="{% static 'website/images/resized/apple-2-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Fresh Apples</span>
+					<span id="item-2-name-holder">Fresh Apples</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$5.99</span>
+					<span id="item-2-price-holder">$5.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(2)" class="item2 cart-dividers btn disabled-minus btn-default">
@@ -131,15 +195,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/pumpkin-1.jpg' %}" class="item-image">
+					<img id="item-3-picture-holder" src="{% static 'website/images/resized/pumpkin-2-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Monster Pumpkins</span>
+					<span id="item-3-name-holder">Monster Pumpkins</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$17.99</span>
+					<span id="item-3-price-holder">$17.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(3)" class="item3 cart-dividers btn disabled-minus btn-default">
@@ -154,15 +218,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/tart-1.jpg' %}" class="item-image">
+					<img id="item-4-picture-holder" src="{% static 'website/images/resized/pitaya-1-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Delicious Pataya</span>
+					<span id="item-4-name-holder">Delicious Pitaya</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$35.99</span>
+					<span id="item-4-price-holder">$35.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(4)" class="item4 cart-dividers btn disabled-minus btn-default">
@@ -179,15 +243,15 @@
 
 			<!-------------------------------------------------------->
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/tomato-1.jpg' %}" class="item-image">
+					<img id="item-5-picture-holder" src="{% static 'website/images/resized/fries-1-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>French Fries</span>
+					<span id="item-5-name-holder">French Fries</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$12.99</span>
+					<span id="item-5-price-holder">$12.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(5)" class="item5 cart-dividers btn disabled-minus btn-default">
@@ -202,15 +266,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/apple-1.jpg' %}" class="item-image">
+					<img id="item-6-picture-holder" src="{% static 'website/images/resized/salad-1-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Oriental Salad</span>
+					<span id="item-6-name-holder">Oriental Salad</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$16.99</span>
+					<span id="item-6-price-holder">$16.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(6)" class="item6 cart-dividers btn disabled-minus btn-default">
@@ -225,15 +289,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/pumpkin-1.jpg' %}" class="item-image">
+					<img id="item-7-picture-holder" src="{% static 'website/images/resized/berries-1-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Blackberries</span>
+					<span id="item-7-name-holder">Blackberries</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$3.99</span>
+					<span id="item-7-price-holder">$3.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(7)" class="item7 cart-dividers btn disabled-minus btn-default">
@@ -248,15 +312,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-3 col-sm-12">
+			<div class="col-md-3 col-sm-12 sauce-pans">
 				<div class="item-image-container">
-					<img src="{% static 'website/images/tart-1.jpg' %}" class="item-image">
+					<img id="item-8-picture-holder" src="{% static 'website/images/resized/tart-1-compressor.jpg' %}" class="item-image">
 				</div>
 				<div class="col-md-6 col-sm-12 item-description">
-					<span>Succulent Tart</span>
+					<span id="item-8-name-holder">Succulent Tart</span>
 				</div>
 				<div class="col-md-6 col-sm-12 item-price">
-					<span>$35.99</span>
+					<span id="item-8-price-holder">$35.99</span>
 				</div>
 				<div class="col-md-12 col-sm-12 item-add-cart">
 					<div ng-click="MinusOne(8)" class="item8 cart-dividers btn disabled-minus btn-default">
@@ -282,7 +346,7 @@
 	<!-- Trigger the modal with a button -->
 	<div id="cart-floater-container" style="position: fixed; right: 17px; bottom: 0; text-align: right; display: none; z-index: 1050;">
 	<input style="width: 70px; cursor: default; text-align: right;" type="text" {% verbatim %}value="${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}"{% endverbatim %} disabled>
-	<button onclick="hideCheckoutForm()" style="border-radius: 100%; outline: none;" type="button" class="btn btn-default btn-lg cart-show-button" data-toggle="modal" data-target="#carter"><i class="glyphicon glyphicon-shopping-cart"></i></button>
+	<button onclick="hideCheckoutForm()" style="border-radius: 100%; outline: none; box-shadow: 0 4px 8px 0 rgba(42, 27, 9, .9), 0 6px 20px 0 rgba(42, 27, 9, .19);" type="button" class="btn btn-default btn-lg cart-show-button" data-toggle="modal" data-target="#carter"><i class="glyphicon glyphicon-shopping-cart"></i></button>
 	</div>
 
 	<!-- Modal -->
@@ -291,13 +355,13 @@
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title" style="text-align: center;"><i style="color: gold;" class="fa fa-shopping-basket"></i> Items in your cart <i style="color: gold;" class="fa fa-shopping-basket"></i></h4>
+			<h4 class="modal-title" style="text-align: center;"><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i> Items in your cart <i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></h4>
 			</div>
 			<div class="modal-body">
 			{% verbatim %}
 			<div style="text-align: center;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3%;">Total Amount: <span style="font-weight: bold;">${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}</span></span></div>
 			<hr>
-			<!-- Test tables 2 -->
+			<!-- Checkout Table -->
 			<div style="text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3% 0 0 0;">
 				<div ng-repeat="test in arrayDescriptions track by $index">
 				<div>
@@ -311,7 +375,7 @@
 				<div class="popup-tables">
 				<table>
 					<tr>
-						<td><input ng-model="Tabler(test)" type="text" style="cursor: default; background-color:white; border: none; width: 45px; text-align: center;" disabled></td>
+						<td><input ng-value="Tabler(test)" type="text" style="cursor: default; background-color:white; border: none; width: 45px; text-align: center;" disabled></td>
 					</tr>
 				</table>
 				</div>
@@ -333,12 +397,15 @@
 				</div>
 				</div>
 			</div>
-			<!-- End Test tables 2 -->
+			<!-- End Checkout Table -->
 			{% endverbatim %}
 
 			</div>
 			<div class="modal-footer" style="text-align: center;">
-			<button class="btn btn-danger popup-checkout-button" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
+			{% if id_user.item_delivery %}
+			<button class="btn btn-default countdown-trigger-button" title="Delivery time" type="button" style="float: left; outline: none;" onclick="showCountdown()"><i class="glyphicon glyphicon-globe"></i><i class="glyphicon glyphicon-log-in"></i></button>
+			{% endif %}
+			<button class="btn btn-default popup-checkout-button" style="background-color: rgba(153, 0, 0, .8); color: white;" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -355,13 +422,66 @@
 	</div>
 	<!-- End Frame -->
 
+	<!-- Counter -->
+	<div class="delivery-countdown-container" style="display: none; text-align: center; position: fixed; left: 0; bottom: 10px; background-color: #f7f7f7; border: 1px solid #f8f8f8; width: 145px; height: 27px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); z-index: 1050;">
+		<div style="width: 100%; text-align: right; position: relative; top: -22px;"><button type="button" class="close" onclick="slideCountdown()" style="outline: none; color: black; font-weight: bold; font-size: 18pt; padding:0">&times;</button></div>
+		<input id="delivery-demo" style="width: 125px; cursor: default; text-align: center; background-color: #f7f7f7; border: none; padding-top: 4px; padding-left: 25px;" type="text" disabled>
+		<i style="position: relative; float: left; top: -20px;" class="glyphicon glyphicon-globe"></i>
+	</div>
+	<!-- End counter -->
+
 
 <!-- Receiving Django Saved Values -->
 <script>
+	/* Initialize Items from Django */
+	function validate_display_field(x){
+		var element = document.getElementById(x);
+		if (typeof(element) != 'undefined' && element != null){ return true; } else { return false; }
+	}
+	function initialize_display_items(index, name, price, url){
+		if(validate_display_field('item-' + index + '-name-holder')){document.getElementById('item-' + index + '-name-holder').innerHTML = name;}
+		if(validate_display_field('item-' + index + '-price-holder')){document.getElementById('item-' + index + '-price-holder').innerHTML = '$' + price.toString();}
+		if(validate_display_field('item-' + index + '-picture-holder')){
+			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute('src', '/static/website/images/item-display-default.jpg');}
+		}
+	}
+	var products = [];
+	var item_to_display_index = 1;
+
+	{% if products_to_display %}
+		{% for item in products_to_display %}
+		var products_dict = {
+			name: '{{item.name}}',
+			price: parseFloat('{{item.price}}'),
+			quantity: parseInt('{{item.quantity}}'),
+			url: '{{item.url}}',
+		};
+		products.push(products_dict);
+		initialize_display_items(item_to_display_index, products_dict.name, products_dict.price, products_dict.url);
+		item_to_display_index += 1;
+		{% endfor %}
+	{% else %}
+		{% if products_to_display_by_default %}
+			{% for item in products_to_display_by_default %}
+			var products_dict = {
+				name: '{{item.name}}',
+				price: parseFloat('{{item.price}}'),
+				quantity: parseInt('{{item.quantity}}'),
+				url: '{{item.url}}',
+			};
+			products.push(products_dict);
+			initialize_display_items(item_to_display_index, products_dict.name, products_dict.price, products_dict.url);
+			item_to_display_index += 1;
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+	/* End Initialize Items from Django */
+
 	var receivedTotalItems = 0;
 	var receivedItemQuantities = [];
 	var receivedItemIndexes = [];
 	var receivedItemDescriptions = [];
+	var redirect_after_completion = "{% url 'website:index' %}";
 
 	{% if saved_total_of_items %}
 	receivedTotalItems = {{saved_total_of_items}};
@@ -395,6 +515,7 @@
 <input style="width: 100%;" id="items-and-quantities" name="items-and-quantities" type="hidden" value="{{ arrayQuantities }}">
 <input style="width: 100%;" id="items-and-indexes" name="items-and-indexes" type="hidden" value="{{ arrayIndexes }}">
 <input style="width: 100%;" id="item-descriptions" name="item-descriptions" type="hidden" value="{{ arrayDescriptions }}">
+<button class="complete-purchase-trigger" type="button" style="display: none;" ng-click="Exterminator()">Complete Purchase</button>
 </div>
 
 <script>
@@ -410,51 +531,6 @@ function preventNegativa(index){
 		}
 }
 /* End negatives */
-
-/* Fill this up with Django */
-var products = [
-  	{ 
-    	name: 'Fresh Tomatoes', 
-    	price: 5.99, 
-    	quantity: 0,
-  	},
-  	{ 
-    	name: 'Fresh Apples', 
-    	price: 5.99, 
-    	quantity: 0,
-  	},
-  	{ 
-    	name: 'Monster Pumpkins', 
-    	price: 17.99, 
-    	quantity: 0,
-  	},
-  	{ 
-    	name: 'Delicious Pataya', 
-    	price: 35.99, 
-    	quantity: 0,
-  	},
-  	{ 
-    	name: 'French Fries', 
-    	price: 12.99, 
-    	quantity: 0,
-  	}, 
-  	{ 
-    	name: 'Oriental Salad', 
-    	price: 16.99, 
-    	quantity: 0,
-  	},
-	{ 
-    	name: 'Blackberries', 
-    	price: 3.99, 
-    	quantity: 0,
-  	},
-  	{ 
-    	name: 'Succulent Tart', 
-    	price: 35.99, 
-    	quantity: 0,
-  	},
-	];
-/* End */
 
 /* Trigger Cart popup */
 function showCart(){
@@ -798,7 +874,7 @@ var stockProducts = [
     	name: 'Monster Pumpkins', 
   	},
   	{ 
-    	name: 'Delicious Pataya', 
+    	name: 'Delicious Pitaya', 
   	},
   	{ 
     	name: 'French Fries',
@@ -863,20 +939,29 @@ for (var i = 0; i < stockProducts.length; i++) {
 
 setTimeout(function(){showCart();}, 500);
 
+	$scope.Exterminator = function(){
+		$scope.item1 = 0;
+		$('.item1').addClass('disabled-minus btn-default');$('.item1').removeClass('btn-danger');
+		$scope.item2 = 0;
+		$('.item2').addClass('disabled-minus btn-default');$('.item2').removeClass('btn-danger');
+		$scope.item3 = 0;
+		$('.item3').addClass('disabled-minus btn-default');$('.item3').removeClass('btn-danger');
+		$scope.item4 = 0;
+		$('.item4').addClass('disabled-minus btn-default');$('.item4').removeClass('btn-danger');
+		$scope.item5 = 0;
+		$('.item5').addClass('disabled-minus btn-default');$('.item5').removeClass('btn-danger');
+		$scope.item6 = 0;
+		$('.item6').addClass('disabled-minus btn-default');$('.item6').removeClass('btn-danger');
+		$scope.item7 = 0;
+		$('.item7').addClass('disabled-minus btn-default');$('.item7').removeClass('btn-danger');
+		$scope.item8 = 0;
+		$('.item8').addClass('disabled-minus btn-default');$('.item8').removeClass('btn-danger');
+	};
+
 });
 </script>
 <!-- End Test -->
 {% endverbatim %}
-
-<!--
-	<br>
-<footer class="avenirRegular" style="background-color: black; clear: both; color: white; padding: 1%; text-align: center;">
-	<h4>Copyright © 2018 Mini Market, All rights reserved.</h4>
-</footer>
--->
-
-
-
 
 <script>
 $("#total-value-of-items").click(function(){
@@ -896,7 +981,7 @@ $("#total-value-of-items").click(function(){
 	dataType: 'json',
 	success: function (data) {
 		if (data.is_taken) {
-		//alert("A user with this username already exists.");
+			//pass
 		}
 	}
 	});
@@ -905,16 +990,108 @@ $("#total-value-of-items").click(function(){
 </script>
 
 <!-- Frame close script -->
+
 <script>
 window.addEventListener('message', receiveMessage, false);
 function receiveMessage(evt){
-	//document.getElementById('market-super-frame-conatiner').style.display = "none";
-	$('#market-super-frame-conatiner').fadeOut(1000);
-	//location.reload();
-	window.location = "{% url 'website:sheet' %}";
+	/* Claim successful purchase */
+	if(evt.data == 'Successful Purchase'){$(".complete-purchase-trigger").trigger("click");}
+	/* End Claim successful purchase */
+
+	/* Terminate Transaction */
+	if(evt.data == 'Completed'){$('#market-super-frame-conatiner').fadeOut(1000);window.location = redirect_after_completion;}
+	/* End Terminate Transaction */
+	
+	//location.reload();	
 }
 </script>
+
 <!-- End frame close -->
+
+<!-- Header Effect -->
+<script>function slideSiteHeader(){	$('#top').fadeOut('slow');}</script>
+<!-- End Header Effect -->
+
+<!-- Smooth Scrolling -->
+<script>
+$(document).ready(function(){
+	$(".market-cta a[href^='#']").on('click', function(e) {
+	   // prevent default anchor click behavior
+	   e.preventDefault();
+	   // store hash
+	   var hash = this.hash;
+	   // animate
+	   $('html, body').animate({
+		   scrollTop: $(hash).offset().top
+		 }, 300, function(){
+		   // when done, add hash to url
+		   slideSiteHeader();
+		});
+	});
+});
+</script>
+<!-- End Smooth Scrolling -->
+
+<!-- Countdown Script -->
+<script>
+// Set the date we're counting down to
+{% if id_user.item_delivery %}
+var endDate = "{{ id_user.item_delivery|date:'M d, Y H:i:s' }}";
+{% else %}
+var today = new Date();
+var tomorrow = new Date();
+var endDate = tomorrow.setDate(today.getDate()+1);
+{% endif %}
+
+var countDownDate = new Date(endDate).getTime();
+//var countDownDate = new Date("Jan 25, 2018 15:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+	/*distance = customTime;*/
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="delivery-demo"
+    //document.getElementById("delivery-demo").innerHTML = days + "d " + hours + "h "
+    //+ minutes + "m " + seconds + "s ";
+	document.getElementById("delivery-demo").value = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("delivery-demo").innerHTML = "Delivered";
+    }
+}, 1000);
+
+</script>
+<!-- End Countdown Script -->
+
+<!-- Countdown float -->
+<script>
+function slideCountdown(){
+	$('.delivery-countdown-container').slideUp();
+	$('.countdown-trigger-button').toggleClass('btn-default');
+	$('.countdown-trigger-button').toggleClass('btn-success');
+}
+function showCountdown(){
+	$('.delivery-countdown-container').slideToggle();
+	$('.countdown-trigger-button').toggleClass('btn-default');
+	$('.countdown-trigger-button').toggleClass('btn-success');
+}
+</script>
+<!-- End Countdown float -->
 
 </body>
 </html>

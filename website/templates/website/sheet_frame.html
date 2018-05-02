@@ -132,7 +132,7 @@
             <div>
                 <h3>Your order has been placed</h3>
 				<p>and is expected to be delivered, according to your location, in: </p>
-				<h3 id="demo"></h3>
+				<h3 id="frame-delivery-demo"></h3>
                 <h3 style="vertical-align: middle; font-size: 5em; color: brown;" class="fa fa-paper-plane"></h3>
                 <br><br>
                 <p> Thank you for shopping at <br>The Mini Market <br><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></p>
@@ -216,7 +216,6 @@
                 $(".email-input-thing").removeClass("success-entry");
                 $(".email-input-thing").addClass("error-entry");
             }
-            
         }
     }
 /* End Email */
@@ -263,7 +262,6 @@ var endDate = tomorrow.setDate(today.getDate()+1);
 {% endif %}
 
 var countDownDate = new Date(endDate).getTime();
-//var countDownDate = new Date("Jan 25, 2018 15:37:25").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function() {
@@ -273,7 +271,6 @@ var x = setInterval(function() {
     
     // Find the distance between now an the count down date
     var distance = countDownDate - now;
-	/*distance = customTime;*/
     
     // Time calculations for days, hours, minutes and seconds
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -281,14 +278,14 @@ var x = setInterval(function() {
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     
-    // Output the result in an element with id="demo"
-    document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+    // Output the result in an element with id="frame-delivery-demo"
+    document.getElementById("frame-delivery-demo").innerHTML = days + "d " + hours + "h "
     + minutes + "m " + seconds + "s ";
     
     // If the count down is over, write some text 
     if (distance < 0) {
         clearInterval(x);
-        document.getElementById("demo").innerHTML = "Delivered";
+        document.getElementById("frame-delivery-demo").innerHTML = "Delivered";
     }
 }, 1000);
 

@@ -11,8 +11,9 @@ from django.template import Context
 import requests
 from ipware import get_client_ip
 from django.http import JsonResponse
-from website.models import User
+from website.models import User, Grocery
 from django.utils import timezone
+from website import default_items
 
 import requests
 from bs4 import BeautifulSoup
@@ -27,9 +28,38 @@ def format_saved_lists(x):
 		x = x.split(',')
 	return x
 
+def initialize_groceries():
+	products_to_display = []
+	for data in Grocery.objects.all():
+		products_to_display.append(data.initialize_item_for_display())
+	return products_to_display
+
+def create_custom_file():
+	import os
+	from django.conf import settings
+	custom_path = os.path.join(settings.BASE_DIR, 'website')
+	file_name = 'emailer.py'
+	custom_file = os.path.join(custom_path, file_name)
+	giant_variable = """
+##GMAIL Email Configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'Larrygmail123' #my gmail password
+EMAIL_HOST_USER = 'enquiries.dlm@gmail.com' #my gmail username
+SERVER_NOTIFIER = ['enquiries.dlm@gmail.com']
+
+##DJANGO Secret Key
+SECRET_KEY = 'tl#vib3qs=0099ojy^1h14%@dm+c2h3z7j$5u+zdjk74fme1q)'
+"""
+
+	with open(custom_file, 'w') as f:
+		f.write(giant_variable)
+	print()
+	print('it worked')
+	print()
+
 @minified_response
 def index(request):
-    
+	create_custom_file()
 	if request.method == 'POST':
 		captured_name = request.POST.get('name', '')
 		captured_email = request.POST.get('email', '')
@@ -41,13 +71,6 @@ def index(request):
 
 		captured_country_name = request.POST.get("country-thing", '')
 		captured_country_name = captured_country_name[captured_country_name.find('</i>'):].split('</i>')[1]
-		"""
-		print(captured_name)
-		print(captured_email)
-		print(captured_number)
-		print(captured_enquiry)
-		print(captured_msg)
-		"""
 		
 		#send_simple_message()
 		try:
@@ -65,8 +88,8 @@ def index(request):
 				id_user.item_descriptions = None
 				
 				id_user.save()
+
 			''' Scrap location '''
-			
 			##Delivery time scrapping
 			delivery_time = ''
 			todays_date = timezone.localtime(timezone.now())
@@ -135,6 +158,8 @@ def index(request):
 	context = {
 		'id_user': id_user,
 		'creation_status': creation_status,
+		'products_to_display': initialize_groceries(),
+		'products_to_display_by_default': default_items.products_to_display_by_default,
 		'saved_total_of_items': saved_total_of_items,
 		'saved_quantities_of_items': format_saved_lists(saved_quantities_of_items),
 		'saved_indexes_of_items': format_saved_lists(saved_indexes_of_items),
@@ -142,55 +167,6 @@ def index(request):
 	}
 	return render(request, 'website/index.html', context)
 
-def sheet(request):
-
-	''' Init IP recording '''
-	ip, is_routable = get_client_ip(request)
-	id_user = None
-	creation_status = None
-
-	if ip is None:
-		print('No IP found')
-	else:
-		print('IP Address is: ', ip)
-
-		try:
-			id_user, creation_status = User.objects.get_or_create(user_ip=ip)
-			print(id_user)
-			saved_total_of_items = id_user.item_totals
-			saved_quantities_of_items = id_user.item_quantities
-			saved_indexes_of_items = id_user.item_indexes
-			saved_description_of_items = id_user.item_descriptions
-		except Exception as error:
-			print(error)
-
-		if is_routable:
-			pass
-			# The client's IP address is publicly routable on the Internet
-		else:
-			pass
-			# The client's IP address is private
-	context = {
-		'id_user': id_user,
-		'creation_status': creation_status,
-		'saved_total_of_items': saved_total_of_items,
-		'saved_quantities_of_items': format_saved_lists(saved_quantities_of_items),
-		'saved_indexes_of_items': format_saved_lists(saved_indexes_of_items),
-		'saved_description_of_items': format_saved_lists(saved_description_of_items),
-	}
-	return render(request, 'website/sheet_app.html', context)
-
-def sheet_angular(request):
-	cart_received = '["Fresh Tomatoes",5,"Fresh Apples",2,"Monster Pumpkins",3,"Milky Tart",5]'
-	cart_received = cart_received[1:-1]
-	cart_received = cart_received.translate({ord(c): None for c in '"'})
-	cart_received = cart_received.split(',')
-	
-	context = {
-		'passed_cart': cart_received,
-		'passed_total': 329.85,
-	}
-	return render(request, 'website/sheet_angular.html', context)
 
 @minified_response
 def frame_form(request):
@@ -205,13 +181,6 @@ def frame_form(request):
 	context = {'client': id_user}
 	return render(request, 'website/sheet_frame.html', context)
 
-def validate_username(request):
-	username = request.GET.get('username', None)
-	print(username)
-	data = {
-		'is_taken': True
-	}
-	return JsonResponse(data)
 
 def totalizer(request):
 
