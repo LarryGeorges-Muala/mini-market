@@ -36,7 +36,7 @@ def initialize_groceries():
 
 @minified_response
 def index(request):
-	create_custom_file()
+
 	if request.method == 'POST':
 		captured_name = request.POST.get('name', '')
 		captured_email = request.POST.get('email', '')
