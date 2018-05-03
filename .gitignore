@@ -5,6 +5,6 @@ staticfiles
 db.sqlite3
 local_settings.py
 website/templates/webiste/index.1.html
-website/emailer.1.py
+website/emailer.py
 website/emailer_script.py
 website/background_tasks_handler.py
