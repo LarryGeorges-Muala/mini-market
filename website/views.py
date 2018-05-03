@@ -34,29 +34,6 @@ def initialize_groceries():
 		products_to_display.append(data.initialize_item_for_display())
 	return products_to_display
 
-def create_custom_file():
-	import os
-	from django.conf import settings
-	custom_path = os.path.join(settings.BASE_DIR, 'website')
-	file_name = 'emailer.py'
-	custom_file = os.path.join(custom_path, file_name)
-	giant_variable = """
-##GMAIL Email Configuration
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'Larrygmail123' #my gmail password
-EMAIL_HOST_USER = 'enquiries.dlm@gmail.com' #my gmail username
-SERVER_NOTIFIER = ['enquiries.dlm@gmail.com']
-
-##DJANGO Secret Key
-SECRET_KEY = 'tl#vib3qs=0099ojy^1h14%@dm+c2h3z7j$5u+zdjk74fme1q)'
-"""
-
-	with open(custom_file, 'w') as f:
-		f.write(giant_variable)
-	print()
-	print('it worked')
-	print()
-
 @minified_response
 def index(request):
 	create_custom_file()
