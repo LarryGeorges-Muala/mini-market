@@ -158,6 +158,85 @@ def frame_form(request):
 	context = {'client': id_user}
 	return render(request, 'website/sheet_frame.html', context)
 
+def generate_total_items_users_carts():
+	total_in_cart = 0
+	if User.objects.all():
+		for data in User.objects.all():
+			formatted_cart = format_saved_lists(data.item_quantities)
+			for i in range(0, len(formatted_cart)):
+				if (i == 1) or (i % 2 == 1):
+					total_in_cart += int(formatted_cart[i])
+	return total_in_cart
+
+def generate_total_value_of_users_carts():
+	total_in_cart = 0.0
+	if User.objects.all():
+		for data in User.objects.all():
+			total_in_cart += float(data.item_totals)
+	return total_in_cart
+
+def generate_occurences():
+	per_cart = {}
+	if Grocery.objects.all():
+		for item in Grocery.objects.all():
+			list_to_hold_cart_count = 0
+			if User.objects.all():
+				for data in User.objects.all():
+					formatted_cart = format_saved_lists(data.item_quantities)
+					if item.name in formatted_cart:
+						index_of_item = formatted_cart.index(item.name)
+						list_to_hold_cart_count += int(formatted_cart[index_of_item + 1])
+			per_cart[item.name] = list_to_hold_cart_count
+	return per_cart
+
+def generate_popular_item():
+	cart_occurences = generate_occurences()
+	popular_items = {
+		'most': {'name': '', 'value': 0},
+		'least': {'name': '', 'value': 0}
+	}
+	if cart_occurences:
+		keys_list = []
+		values_list = []
+		for keys, values in cart_occurences.items():
+			keys_list.append(keys)
+			values_list.append(int(values))
+
+		index_of_highest_value = values_list.index(max(values_list))
+		index_of_lowest_value = values_list.index(min(values_list))
+		most_popular = keys_list[index_of_highest_value]
+		least_popular = keys_list[index_of_lowest_value]
+
+		popular_items['most']['name'] = most_popular
+		popular_items['most']['value'] = max(values_list)
+		popular_items['least']['name'] = least_popular
+		popular_items['least']['value'] = min(values_list)
+	return popular_items
+
+@minified_response
+def manager(request):
+	''' Init IP recording '''
+	id_user = None
+	try:
+		ip, is_routable = get_client_ip(request)
+		if ip is not None:
+			id_user, creation_status = User.objects.get_or_create(user_ip=ip)
+	except Exception as error:
+		print(error)
+
+	context = {
+		'client': id_user, 
+		'grocery_list': Grocery.objects.all(),
+		'all_users': User.objects.all(),
+		'visitors': User.objects.all().exclude(user_email__contains='@'),
+		'registered_users': User.objects.filter(user_email__contains='@'),
+		'all_items_in_carts': generate_total_items_users_carts(),
+		'total_value_of_carts': generate_total_value_of_users_carts(),
+		'item_table': generate_occurences(),
+		'popular_items': generate_popular_item()
+		}
+	return render(request, 'website/manager.html', context)
+
 
 def totalizer(request):
 

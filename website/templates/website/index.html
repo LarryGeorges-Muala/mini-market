@@ -5,29 +5,26 @@
   <title>Mini Market</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" type="image/png" href="{% static 'website/images/favicon.png' %}"/>
-  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="shortcut icon" type="image/png" href="{% static 'website/images/favicon-compressor.png' %}"/>
+
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}" media="none" onload="if(media!='all')media='all'">
+  <noscript><link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}"></noscript>
+
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}" media="none" onload="if(media!='all')media='all'">
+  <noscript><link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}"></noscript>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></noscript>
+
   <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
   <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
-
-  <!-- Off django -->
-  <!--
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  -->
-  <!-- End Off django -->
-
   <script src="{% static 'website/boots/js/angular.min.js' %}"></script>
   <script src="{% static 'website/boots/js/angular.min.js.map' %}"></script>
 </head>
 <body id="complete-control" style="font-family: 'Roboto', sans-serif; background-color: #f8f8f8;" ng-app="myApp" ng-controller="myCtrl">
 <style>
 	.fixed-bg-top {
-		background-image: url("{% static 'website/images/header-1-compressor.jpg' %}");
+		background-image: url("{% static 'website/images/header-1-compressor-compressor-compressor.jpg' %}");
 		min-height: 650px;
 		background-size: 100% 100%;
 		background-attachment: fixed;
@@ -404,6 +401,9 @@
 			{% endif %}
 			<button class="btn btn-default popup-checkout-button" style="background-color: rgba(153, 0, 0, .8); color: white;" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<div style="width: 100%; display: block; text-align: center; margin-top: 20px;">
+				<a target="_blank" href="/manager" class="btn btn-success" >View Store Statistics</a>
+			</div>
 			</div>
 		</div>
 		</div>
@@ -439,7 +439,7 @@
 		if(validate_display_field('item-' + index + '-name-holder')){document.getElementById('item-' + index + '-name-holder').innerHTML = name;}
 		if(validate_display_field('item-' + index + '-price-holder')){document.getElementById('item-' + index + '-price-holder').innerHTML = '$' + price.toString();}
 		if(validate_display_field('item-' + index + '-picture-holder')){
-			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute('src', '/static/website/images/item-display-default.jpg');}
+			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute('src', '/static/website/images/item-display-default-compressor-compressor.jpg');}
 		}
 	}
 	var products = [];

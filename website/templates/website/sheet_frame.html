@@ -5,22 +5,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
-  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap-formhelpers.min.css' %}">
-  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+  
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}" media="none" onload="if(media!='all')media='all'">
+  <noscript><link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}"></noscript>
+  
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}" media="none" onload="if(media!='all')media='all'">
+  <noscript><link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}"></noscript>
+  
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap-formhelpers.min.css' %}" media="none" onload="if(media!='all')media='all'">
+  <noscript><link rel="stylesheet" href="{% static 'website/boots/css/bootstrap-formhelpers.min.css' %}"></noscript>
+
   <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
   <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'website/boots/js/bootstrap-formhelpers.min.js' %}"></script>
-
-  <!-- Off django -->
-  <!--
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  -->
-  <!-- End Off django -->
 </head>
 
 <body style="background-color: #f7f7f7;">

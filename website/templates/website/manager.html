@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Store Manager | Mini Market</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{% static 'website/images/favicon-compressor.png' %}"/>
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'website/boots/css/bootstrap-formhelpers.min.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="{% static 'website/boots/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'website/boots/js/bootstrap-formhelpers.min.js' %}"></script>
+</head>
+
+<body style="background-color: #f7f7f7;">
+    <div style="width: 100%; padding: 1%; text-align: center;">
+
+        <div class="col-md-12 col-xs-12" style="margin: 5px auto;">
+            <a href="/" title="Return to Store" class="btn btn-default" style="border-radius: 100%;"><img style="border-radius: 100%; width: 70px;" src="{% static 'website/images/item-display-default.jpg' %}"></a>
+        </div>
+
+        <h1>Store Management Interface</h1>
+        
+        <div class="col-md-5 col-xs-12" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin: 1%; padding: 1%;">
+            <h2>Items on display in store</h2>
+            {% if grocery_list %}
+            <ul style="text-align: left;">
+                {% for item in grocery_list %}
+                <li style="padding: 1%;"><span style="font-weight: bold;">{{ item.name }}</span> selling at <span style="font-weight: bold;">${{ item.price }}</span></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No items currently on display</p>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 col-xs-12" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin: 1%; padding: 1%;">
+            <h2>Store Statistics</h2>
+            <p>Total number of users: <strong>{{ all_users.count }}</strong></p>
+            <p>Total number of visitors: <strong>{{ visitors.count }}</strong></p>
+            <p>Total number of registered customers: <strong>{{ registered_users.count }}</strong></p>
+            <hr>
+            <p>Total number of items currently in users' carts: <strong>{{ all_items_in_carts }}</strong></p>
+            <p>Total value of items currently in users' carts: <strong>${{ total_value_of_carts }}</strong></p>
+            
+            <!--
+            <p>Total number of items purchased by users: <strong></strong></p>
+            -->
+            {% if popular_items %}
+            <hr>
+            <p>Item most selected by users: <strong>{{ popular_items.most.name }}</strong> - [<strong>{{ popular_items.most.value }}</strong>]</p>
+            <p>Item least selected by users: <strong>{{ popular_items.least.name }}</strong> - [<strong>{{ popular_items.least.value }}</strong>]</p>
+            {% endif %}
+            <!--
+            <hr>
+            <p>Item most purchased by users: <strong></strong></p>
+            <p>Item least purchased by users: <strong></strong></p>
+            -->
+            <hr>
+            <h3>Items table</h3>
+            {% if item_table %}
+            <div class="table-responsive" style="text-align: left;">     
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th style="text-align: center;">Currently in Carts <i class="glyphicon glyphicon-shopping-cart"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, value in item_table.items %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td style="text-align: center;">{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>None available</p>
+            {% endif %}
+
+            <hr>
+            <h2>Store Profit</h2>
+            <h2>${{ total_value_of_carts }}</h2>
+        </div>
+
+        <div class="col-md-12 col-xs-12" style="margin: 50px auto;">
+            <a href="/" class="btn btn-danger">Return to Store</a>
+        </div>
+
+
+    </div>
+</body>
+</html>
