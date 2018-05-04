@@ -439,7 +439,7 @@
 		if(validate_display_field('item-' + index + '-name-holder')){document.getElementById('item-' + index + '-name-holder').innerHTML = name;}
 		if(validate_display_field('item-' + index + '-price-holder')){document.getElementById('item-' + index + '-price-holder').innerHTML = '$' + price.toString();}
 		if(validate_display_field('item-' + index + '-picture-holder')){
-			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute('src', '/static/website/images/item-display-default-compressor-compressor.jpg');}
+			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute("src", "{% static 'website/images/item-display-default-compressor-compressor.jpg' %}");}
 		}
 	}
 	var products = [];
