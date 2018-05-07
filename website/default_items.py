@@ -56,11 +56,11 @@ def create_default_groceries():
     for data in products_to_display_by_default:
         Grocery.objects.get_or_create(name = data['name'], price = data['price'], quantity = data['quantity'])
 
-'''
+
 try:
     create_default_groceries()
 except Exception as error:
     print()
     print(error)
     print()
-'''
+
