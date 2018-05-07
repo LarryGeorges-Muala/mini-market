@@ -135,9 +135,9 @@
  <br>
  <br>
 	<div style="text-align: center; z-index: 10;">
-	<h1 style="color: white;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 1%; background-color: rgba(0, 0, 0, 0.5);">Welcome to <br class="title-break" style="display: none;">The Mini Market</span></h1>
-	<button onclick="slideSiteHeader()" class="btn btn-danger" style="outline: none; background-color: rgba(203, 52, 52, .7);">{% if id_user %}Continue{% else %}Start{% endif %} Shopping</button>
-	<h1 class="market-cta" style="color: white; margin-top: 10px"><a href="#start-shopping-block" class="header-arrow-down" style="color: #f8f8f8;"><i class="glyphicon glyphicon-chevron-down"></i></a></h1>
+		<h1 style="color: white;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 1%; background-color: rgba(0, 0, 0, 0.5);">Welcome to <br class="title-break" style="display: none;">The Mini Market</span></h1>
+		<button onclick="slideSiteHeader()" class="btn btn-danger" style="outline: none; background-color: rgba(203, 52, 52, .7); padding: 6px 12px; color: #fff; border-color: #d43f3a;">{% if id_user %}Continue{% else %}Start{% endif %} Shopping</button>
+		<h1 class="market-cta" style="color: white; margin-top: 10px"><a href="#start-shopping-block" class="header-arrow-down" style="color: #f8f8f8;"><i class="glyphicon glyphicon-chevron-down"></i></a></h1>
 	</div>
  </div>
 
@@ -337,77 +337,81 @@
 
 	<!-- Modal -->
 	<div class="container">
-	<!-- Trigger the modal with a button -->
-	<div id="cart-floater-container" style="position: fixed; right: 17px; bottom: 0; text-align: right; display: none; z-index: 1050;">
-	<input style="width: 70px; cursor: default; text-align: right;" type="text" {% verbatim %}value="${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}"{% endverbatim %} disabled>
-	<button onclick="hideCheckoutForm()" style="border-radius: 100%; outline: none; box-shadow: 0 4px 8px 0 rgba(42, 27, 9, .9), 0 6px 20px 0 rgba(42, 27, 9, .19);" type="button" class="btn btn-default btn-lg cart-show-button" data-toggle="modal" data-target="#carter"><i class="glyphicon glyphicon-shopping-cart"></i></button>
-	</div>
+		<!-- Trigger the modal with a button -->
+		<div id="cart-floater-container" style="position: fixed; right: 17px; bottom: 0; text-align: right; display: none; z-index: 1050;">
+			<input style="width: 70px; cursor: default; text-align: right;" type="text" {% verbatim %}value="${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}"{% endverbatim %} disabled>
+			<button onclick="hideCheckoutForm()" style="border-radius: 100%; outline: none; box-shadow: 0 4px 8px 0 rgba(42, 27, 9, .9), 0 6px 20px 0 rgba(42, 27, 9, .19);" type="button" class="btn btn-default btn-lg cart-show-button" data-toggle="modal" data-target="#carter"><i class="glyphicon glyphicon-shopping-cart"></i></button>
+		</div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="carter" role="dialog">
-		<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title" style="text-align: center;"><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i> Items in your cart <i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></h4>
-			</div>
-			<div class="modal-body">
-			{% verbatim %}
-			<div style="text-align: center;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3%;">Total Amount: <span style="font-weight: bold;">${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}</span></span></div>
-			<hr>
-			<!-- Checkout Table -->
-			<div style="text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3% 0 0 0;">
-				<div ng-repeat="test in arrayDescriptions track by $index">
-				<div>
-				<div class="popup-tables">
-				<table>
-					<tr>
-						<td style="width: 130px;">{{test}}</td>
-					</tr>
-				</table>
-				</div>
-				<div class="popup-tables">
-				<table>
-					<tr>
-						<td><input ng-value="Tabler(test)" type="text" style="cursor: default; background-color:white; border: none; width: 45px; text-align: center;" disabled></td>
-					</tr>
-				</table>
-				</div>
-				<div class="popup-tables">
-				<table>
-					<tr>
-						<td><button class="btn remove-sign-trigger-{{ TablerIndexer(test) }}" ng-click="NewTriggerRemoveFromCart(test)" style="border: none; background-color: white; padding: 0 10px;"><i class="glyphicon glyphicon-remove-sign" style="color: brown;"></i></button></td>
-					</tr>
-				</table>
-				</div>
-				<div>
-					<div class="deleting-block-{{ TablerIndexer(test) }}" style="display: none;">
-						<p>Do you want to remove this item from your cart?</p>
-						<button type="button" ng-click="NewPooper(test)" class="btn btn-danger">Yes</button>
-						<button type="button" class="btn btn-info cancel-deleting-block-{{ TablerIndexer(test) }}" ng-click="NewCancelRemoveFromCart(test)">No</button>
+		<!-- Modal Popup -->
+		<div class="modal fade" id="carter" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" style="text-align: center;"><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i> Items in your cart <i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></h4>
+					</div>
+					<div class="modal-body">
+					{% verbatim %}
+						<div style="text-align: center;"><span style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3%;">Total Amount: <span style="font-weight: bold;">${{ (item1 * itemValue1) + (item2 * itemValue2) + (item3 * itemValue4) + (item4 * itemValue4) + (item5 * itemValue5) + (item6 * itemValue6) + (item7 * itemValue7) + (item8 * itemValue8) }}</span></span></div>
+						<hr>
+						<!-- Checkout Table -->
+						<div style="text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3% 0 0 0;">
+							<div ng-repeat="test in arrayDescriptions track by $index">
+								<div>
+									<div class="popup-tables">
+										<table>
+											<tr>
+												<td style="width: 130px;">{{test}}</td>
+											</tr>
+										</table>
+									</div>
+									<div class="popup-tables">
+										<table>
+											<tr>
+												<td><input ng-value="Tabler(test)" type="text" style="cursor: default; background-color:white; border: none; width: 45px; text-align: center;" disabled></td>
+											</tr>
+										</table>
+									</div>
+									<div class="popup-tables">
+										<table>
+											<tr>
+												<td><button class="btn remove-sign-trigger-{{ TablerIndexer(test) }}" ng-click="NewTriggerRemoveFromCart(test)" style="border: none; background-color: white; padding: 0 10px;"><i class="glyphicon glyphicon-remove-sign" style="color: brown;"></i></button></td>
+											</tr>
+										</table>
+									</div>
+									<div>
+										<div class="deleting-block-{{ TablerIndexer(test) }}" style="display: none;">
+											<p>Do you want to remove this item from your cart?</p>
+											<button type="button" ng-click="NewPooper(test)" class="btn btn-danger">Yes</button>
+											<button type="button" class="btn btn-info cancel-deleting-block-{{ TablerIndexer(test) }}" ng-click="NewCancelRemoveFromCart(test)">No</button>
+										</div>
+									</div>
+									<br>
+								</div>
+							</div>
+						</div>
+						<!-- End Checkout Table -->
+					{% endverbatim %}
+					</div>
+					<div class="modal-footer" style="text-align: center;">
+						{% if id_user.item_delivery %}
+						<button class="btn btn-default countdown-trigger-button" title="Delivery time" type="button" style="float: left; outline: none;" onclick="showCountdown()"><i class="glyphicon glyphicon-globe"></i><i class="glyphicon glyphicon-log-in"></i></button>
+						{% endif %}
+						<button class="btn btn-default popup-checkout-button" style="background-color: rgba(153, 0, 0, .8); color: white;" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						{% if id_user.customer_set.all %}
+						<div style="width: 100%; display: block; text-align: center; margin-top: 20px;">
+							<button type="button" class="btn btn-warning" onclick="$('#carter').modal('hide');" data-toggle="modal" data-target="#purchase-history">View Purchase History</button>
+						</div>
+						{% endif %}
+						<div style="width: 100%; display: block; text-align: center; margin-top: 20px;">
+							<a target="_blank" href="/manager" class="btn btn-success" >View Store Statistics</a>
+						</div>
 					</div>
 				</div>
-				<br>
-				</div>
-				</div>
-			</div>
-			<!-- End Checkout Table -->
-			{% endverbatim %}
-
-			</div>
-			<div class="modal-footer" style="text-align: center;">
-			{% if id_user.item_delivery %}
-			<button class="btn btn-default countdown-trigger-button" title="Delivery time" type="button" style="float: left; outline: none;" onclick="showCountdown()"><i class="glyphicon glyphicon-globe"></i><i class="glyphicon glyphicon-log-in"></i></button>
-			{% endif %}
-			<button class="btn btn-default popup-checkout-button" style="background-color: rgba(153, 0, 0, .8); color: white;" data-dismiss="modal" onclick="showCheckoutForm()">Checkout <i class="fa fa-credit-card"></i></button>
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<div style="width: 100%; display: block; text-align: center; margin-top: 20px;">
-				<a target="_blank" href="/manager" class="btn btn-success" >View Store Statistics</a>
-			</div>
 			</div>
 		</div>
-		</div>
-	</div>
 	</div>
 	<!-- End Modal -->
 
@@ -426,6 +430,39 @@
 		<i style="position: relative; float: left; top: -20px;" class="glyphicon glyphicon-globe"></i>
 	</div>
 	<!-- End counter -->
+
+	<!-- History Modal -->
+	<div class="modal fade" id="purchase-history" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" style="text-align: center;"><i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i> Purchase History <i style="color: rgba(42, 27, 9, .9);" class="fa fa-shopping-basket"></i></h4>
+				</div>
+				<div class="modal-body">
+					<!-- Purchase Table -->
+					{% for data in id_user.customer_set.all %}
+					<div style="text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 3% 0 0 2%;">
+						<p style="text-align: left;">Date of Purchase: <span style="font-weight: bold;">{{ data.purchase_date }}</span></p>
+						<ul style="text-align: left;">
+							{% for key, value in data.prepare_for_display.items %}
+							<li><span style="font-weight: bold;">{{ key }}</span>: <span style="font-weight: bold;">{{ value }}</span></li>
+							{% endfor %}
+						</ul>
+						<p style="text-align: left;">Date of Delivery: <span style="font-weight: bold;">{{ data.item_delivery }}</span></p>
+						<p style="text-align: left;">Delivery Status: <span style="font-weight: bold;">{{ data.prepare_delivery_status }}</span></p>
+						<hr>
+					</div>
+					{% endfor %}
+					<!-- End Purchase Table -->
+				</div>
+				<div class="modal-footer" style="text-align: center;">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End History Modal -->
 
 
 <!-- Receiving Django Saved Values -->
@@ -464,7 +501,7 @@
 				name: '{{item.name}}',
 				price: parseFloat('{{item.price}}'),
 				quantity: parseInt('{{item.quantity}}'),
-				url: '{{item.url}}',
+				url: '{% static item.url %}',
 			};
 			products.push(products_dict);
 			initialize_display_items(item_to_display_index, products_dict.name, products_dict.price, products_dict.url);

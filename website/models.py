@@ -79,50 +79,50 @@ class Grocery(models.Model):
 		return self.name
 
 
-'''
-class Cart(models.Model):
+class Customer(models.Model):
+	
+	user_reference = models.ForeignKey(User, on_delete=models.CASCADE)
+	item_totals = models.CharField(max_length=200, null=True)
+	item_quantities = models.CharField(max_length=200, null=True)
+	item_indexes = models.CharField(max_length=200, null=True)
+	item_descriptions = models.CharField(max_length=200, null=True)
 
 	def time_under_timezone():
 		return timezone.localtime(timezone.now())
-	
-	user_reference = models.ForeignKey(User, on_delete=models.CASCADE)
-	book_reference = models.CharField(max_length=255)
-	
-	book_author = models.CharField(max_length=255)
-	book_description = models.TextField()
-	book_image_link = models.CharField(max_length=255)
-	book_overview = models.CharField(max_length=255)
-	book_reader = models.CharField(max_length=255)
-	book_author_reference = models.CharField(max_length=255)
-	book_gender = models.CharField(max_length=255)
-	book_gender_id = models.CharField(max_length=255)
+	item_delivery = models.DateTimeField('Date of Delivery', default=time_under_timezone)
+	purchase_date = models.DateTimeField('Date of Purchase', default=time_under_timezone)
 
-	date_of_acquisition = models.DateTimeField('Date Acquired', default=time_under_timezone)
-	date_of_purchase = models.DateTimeField('Date Purchased', default=time_under_timezone)
-	
-	book_title = models.CharField(max_length=255)
-	
+	def prepare_for_display(self):
+		items_dict = {}
+		if self.item_quantities:
+			x = self.item_quantities
+			x = x[1:-1]
+			x = x.translate({ord(c): None for c in '"'})
+			x = x.split(',')
+			for i in range(0, len(x)):
+				if (i == 1) or (i % 2 == 1):
+					pass
+				else:
+					items_dict[x[i]] = x[i+1]
+		return items_dict
+
+	def prepare_delivery_status(self):
+		if self.item_delivery > timezone.localtime(timezone.now()):
+			return 'in progress'
+		return 'delivered'
+			
+
 	def __str__(self):
-		return self.book_reference
-		
+		return self.item_totals
+
 	def __str__(self):
-		return self.book_author
-		
+		return self.item_quantities
+
 	def __str__(self):
-		return self.book_description
-		
+		return self.item_indexes
+
 	def __str__(self):
-		return self.book_image_link
-		
+		return self.item_descriptions
+
 	def __str__(self):
-		return self.book_overview
-		
-	def __str__(self):
-		return self.book_reader
-		
-	def __str__(self):
-		return self.book_gender
-		
-	def __str__(self):
-		return self.book_title
-'''
+		return self.user_reference
