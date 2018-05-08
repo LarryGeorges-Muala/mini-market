@@ -61,8 +61,8 @@ def reinitialize_db():
 
 
 try:
-    reinitialize_db()
-    #create_default_groceries()
+    #reinitialize_db()
+    create_default_groceries()
     print()
     print('done')
     print()
