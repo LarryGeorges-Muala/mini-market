@@ -59,7 +59,7 @@ def create_default_groceries():
 def reinitialize_db():
     Grocery.objects.all().delete()
 
-'''
+
 try:
     reinitialize_db()
     #create_default_groceries()
@@ -70,4 +70,4 @@ except Exception as error:
     print()
     print(error)
     print()
-'''
+
