@@ -479,6 +479,10 @@
 			if(url){document.getElementById('item-' + index + '-picture-holder').setAttribute('src', url);} else{document.getElementById('item-' + index + '-picture-holder').setAttribute("src", "{% static 'website/images/item-display-default-compressor-compressor.jpg' %}");}
 		}
 	}
+	function heroku_server_display_hack(x){
+		if (x[0] == 'w'){return "/static/" + x;}
+		return x;
+	}
 	var products = [];
 	var item_to_display_index = 1;
 
@@ -488,7 +492,7 @@
 			name: '{{item.name}}',
 			price: parseFloat('{{item.price}}'),
 			quantity: parseInt('{{item.quantity}}'),
-			url: '{{item.url}}',
+			url: heroku_server_display_hack('{{item.url}}'),
 		};
 		products.push(products_dict);
 		initialize_display_items(item_to_display_index, products_dict.name, products_dict.price, products_dict.url);

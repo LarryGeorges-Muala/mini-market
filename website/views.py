@@ -24,7 +24,8 @@ from htmlmin.decorators import minified_response
 def initialize_groceries():
 	products_to_display = []
 	for data in Grocery.objects.all():
-		products_to_display.append(data.initialize_item_for_display())
+		#products_to_display.append(data.initialize_item_for_display())
+		products_to_display.append(data.heroku_server_url_hack(default_items.products_to_display_by_default))
 	return products_to_display
 
 @minified_response

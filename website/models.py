@@ -75,6 +75,16 @@ class Grocery(models.Model):
 		}
 		return temporary_dict
 
+	def heroku_server_url_hack(self, x):
+		''' Hack for heroku free servers not storing media files uploaded to site '''
+		temporary_dict = self.initialize_item_for_display()
+		if temporary_dict:
+			for data in x:
+				if data['name'] == temporary_dict['name']:
+					temporary_dict['url'] = data['url']
+		return temporary_dict
+			
+
 	def __str__(self):
 		return self.name
 

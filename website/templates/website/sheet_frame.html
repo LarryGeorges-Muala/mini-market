@@ -95,6 +95,7 @@
 
             <div class="form-group">
                 <label for="country-selected">Country:</label>
+                <style>.bfh-selectbox div{ direction: ltr; width: 100%; }</style>
 				<div id="country-selected" class="bfh-selectbox bfh-countries" {% if client.user_country %}data-country="{{client.user_country}}"{% else %}data-country="ZA"{% endif %} data-flags="true">
 				<input type="hidden" value="">
 				<a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
